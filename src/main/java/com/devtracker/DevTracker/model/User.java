@@ -1,6 +1,7 @@
 package com.devtracker.DevTracker.model;
 
 import com.devtracker.DevTracker.model.enums.Position;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,6 +20,7 @@ public class User {
     private int userId;
     private String userName;
     private String email;
+    @JsonIgnore
     private String password;
     @Enumerated(EnumType.STRING)
     private Position Position;

@@ -29,14 +29,15 @@ public class Project {
     private Date deadline;
 
     @ManyToOne
-    @JoinColumn(name = "team_lead_id")
+    @JoinColumn(name = "team_lead_id" ,foreignKey = @ForeignKey(name = "fk_project_teamLead"))
     private User teamLead;
 
     @ManyToMany
     @JoinTable(
             name = "project_members",
             joinColumns = @JoinColumn(name = "project_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
+            inverseJoinColumns = @JoinColumn(name = "user_id"),
+            foreignKey = @ForeignKey(name = "fk_project_team_members")
     )
     private List<User> teamMembers;
 

@@ -23,11 +23,11 @@ public class Comment{
     private String content;
 
     @ManyToOne
-    @JoinColumn(name = "author_id")
+    @JoinColumn(name = "author_id" ,foreignKey = @ForeignKey(name = "fk_comment_author"))
     private User author;
 
     @ManyToOne
-    @JoinColumn(name = "issue_id")
+    @JoinColumn(name = "issue_id", foreignKey = @ForeignKey(name = "fk_comment_issue_id"))
     private Issue issueId;
 
 

@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Comment;
+
 import org.hibernate.annotations.CreationTimestamp;
 import java.util.Date;
 import java.util.List;
@@ -47,10 +47,10 @@ public class Issue {
 
     // Foreign key to Project
     @ManyToOne
-    @JoinColumn(name = "project_id", referencedColumnName = "projectId", foreignKey = @ForeignKey(name = "fk_issue_project"))
+    @JoinColumn(name = "projectId", referencedColumnName = "projectId", foreignKey = @ForeignKey(name = "fk_issue_project"))
     private Project project;
 
-    @OneToMany(mappedBy = "issue_id",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "issueId",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Comment>comments;
 
     @CreationTimestamp
