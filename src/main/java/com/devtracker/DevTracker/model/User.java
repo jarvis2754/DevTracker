@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.List;
 
 @Entity
 @Data
@@ -21,5 +22,20 @@ public class User {
     private String password;
     @Enumerated(EnumType.STRING)
     private Position Position;
+
+    @OneToMany(mappedBy="assigner")
+    private List<Issue> assignedTo;
+
+    @OneToMany(mappedBy="reporter")
+    private List<Issue> reportedIssues;
+
+    @OneToMany(mappedBy = "author")
+    private List<Comment> comments;
+
+    @OneToMany(mappedBy = "teamLead")
+    private List<Project> leadingProjects;
+
+    @ManyToMany(mappedBy = "teamMembers")
+    private List<Project> projects;
 
 }
