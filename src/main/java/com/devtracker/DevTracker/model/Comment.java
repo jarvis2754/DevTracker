@@ -7,13 +7,14 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "comments")
-public class Comments{
+@Table(name = "comment")
+public class Comment{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,15 +23,13 @@ public class Comments{
     private String content;
 
     @ManyToOne
-    @JoinColumn(name = "author_id", referencedColumnName = "id")
+    @JoinColumn(name = "author_id")
     private User author;
 
     @ManyToOne
-    @JoinColumn(name = "issue_id", referencedColumnName = "id")
-    private User  issue;
+    @JoinColumn(name = "issue_id")
+    private Issue issueId;
 
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
 
 //    @PrePersist
 //    protected void onCreate() {
@@ -39,6 +38,6 @@ public class Comments{
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    private Data CreatedAt;
+    private Date createdAt;
 }
 
