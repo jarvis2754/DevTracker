@@ -1,5 +1,8 @@
 package com.devtracker.DevTracker.model;
 
+import com.devtracker.DevTracker.model.enums.IssueType;
+import com.devtracker.DevTracker.model.enums.Priority;
+import com.devtracker.DevTracker.model.enums.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
