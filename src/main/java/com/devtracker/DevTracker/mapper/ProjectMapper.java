@@ -12,10 +12,10 @@ import java.util.stream.Collectors;
 @Service
 public class ProjectMapper {
     public ProjectDTO toDto(Project project){
-        String teamLead = project.getTeamLead()!=null?project.getTeamLead().getUserName():null;
-        List<String> teamMembers =project.getTeamMembers()!=null ? project
+        Integer teamLeadId = project.getTeamLead()!=null?project.getTeamLead().getUserId():null;
+        List<Integer> teamMemberIds =project.getTeamMembers()!=null ? project
                                 .getTeamMembers().stream()
-                                .map(User::getUserName)
+                                .map(User::getUserId)
                                 .toList():List.of();
         int issueCount = project.getIssues()!=null ? project.getIssues().size():0;
 
@@ -25,8 +25,8 @@ public class ProjectMapper {
                 project.getProjectDesc(),
                 project.getCreatedAt(),
                 project.getDeadline(),
-                teamLead,
-                teamMembers,
+                teamLeadId,
+                teamMemberIds,
                 project.getStatus(),
                 issueCount);
     }
