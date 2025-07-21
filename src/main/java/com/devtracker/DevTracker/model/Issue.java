@@ -24,6 +24,7 @@ public class Issue {
     private int issueId;
 
     private String issueTitle;
+    @Lob
     private String issueDescription;
 
     @Enumerated(EnumType.STRING)

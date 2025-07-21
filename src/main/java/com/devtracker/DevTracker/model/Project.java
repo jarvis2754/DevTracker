@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDate;
@@ -22,8 +23,10 @@ public class Project {
     private int projectId;
 
     private String projectName;
+    @Lob
     private String projectDesc;
-
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
     private Date deadline;
@@ -47,7 +50,4 @@ public class Project {
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Issue> issues;
 
-
-
-    // Getters and setters
 }
