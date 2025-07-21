@@ -16,7 +16,7 @@ public class ProjectController {
     private ProjectService service;
 
     @PostMapping("/add")
-    public void addProject(@RequestBody Project project){
+    public void addProject(@RequestBody ProjectUpdateDTO project){
         service.addProjects(project);
     }
 

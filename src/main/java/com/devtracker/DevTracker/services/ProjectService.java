@@ -23,8 +23,19 @@ public class ProjectService {
     @Autowired
     private UserRepository userRepo;
 
-    public void addProjects(Project project){
-        projRepo.save(project);
+    public void addProjects(ProjectUpdateDTO projectData){
+        Project data = new Project();
+        User teamLead = userRepo.findById(projectData.getTeamLeadId()).orElseThrow(()->new RuntimeException("Team lead not found"));
+        data.setTeamLead(teamLead);
+        List<User> teamMembers = projectData
+                .getTeamMemberIds().stream()
+                .map(id->userRepo.findById(id).orElseThrow(()->new RuntimeException("team member not found"))).toList();
+        data.setTeamMembers(teamMembers);
+        data.setProjectName(projectData.getProjectName());
+        data.setProjectDesc(projectData.getProjectDesc());
+        data.setDeadline(projectData.getDeadline());
+        data.setStatus(projectData.getStatus());
+        projRepo.save(data);
     }
 
     public List<ProjectDTO> getAllProjects(){
