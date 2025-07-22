@@ -2,9 +2,10 @@ package com.devtracker.DevTracker.controller;
 
 import com.devtracker.DevTracker.dto.ProjectDTO;
 import com.devtracker.DevTracker.dto.ProjectUpdateDTO;
-import com.devtracker.DevTracker.model.Project;
 import com.devtracker.DevTracker.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,22 +17,45 @@ public class ProjectController {
     private ProjectService service;
 
     @PostMapping("/add")
-    public void addProject(@RequestBody ProjectUpdateDTO project){
-        service.addProjects(project);
+    public ResponseEntity<String> addProject(@RequestBody ProjectUpdateDTO project){
+        try {
+            service.addProjects(project);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Project created successfully");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @GetMapping("/all")
-    public List<ProjectDTO> allProjects(){
-        return service.getAllProjects();
+    public ResponseEntity<List<ProjectDTO>> allProjects(){
+        List<ProjectDTO> projects = service.getAllProjects();
+        if(projects.isEmpty())
+            return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(projects);
     }
 
     @GetMapping("/search")
-    public List<ProjectDTO> allProjectsByName(@RequestParam("keyword") String keyword){
-        return service.getAllProjectsByName(keyword);
+    public ResponseEntity<List<ProjectDTO>> allProjectsByName(@RequestParam("keyword") String keyword){
+        List<ProjectDTO> projects = service.getAllProjectsByName(keyword);
+        if(projects.isEmpty())
+            return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(projects);
     }
 
     @PutMapping("/update/{id}")
-    public void updateProject(@PathVariable int id, @RequestBody ProjectUpdateDTO project){
-       service.updateProjectById(id, project);
+    public ResponseEntity<String> updateProject(@PathVariable int id, @RequestBody ProjectUpdateDTO project){
+       try {
+           service.updateProjectById(id, project);
+           return ResponseEntity.ok("Project updated successfully");
+       }catch(RuntimeException e){
+           return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+       }
+    }
+
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<String> deleteProject(@PathVariable int id){
+        boolean isDeleted = service.deleteProjectById(id);
+        if(isDeleted) return ResponseEntity.status(HttpStatus.OK).body("Project deleted");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Project with "+id+" doesn't exist");
     }
 }

@@ -10,27 +10,34 @@ import com.devtracker.DevTracker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class ProjectService {
+
     @Autowired
     private ProjectRepository projRepo;
-
     @Autowired
     private ProjectMapper mapper;
-
     @Autowired
     private UserRepository userRepo;
 
     public void addProjects(ProjectUpdateDTO projectData){
         Project data = new Project();
-        User teamLead = userRepo.findById(projectData.getTeamLeadId()).orElseThrow(()->new RuntimeException("Team lead not found"));
-        data.setTeamLead(teamLead);
-        List<User> teamMembers = projectData
-                .getTeamMemberIds().stream()
-                .map(id->userRepo.findById(id).orElseThrow(()->new RuntimeException("team member not found"))).toList();
-        data.setTeamMembers(teamMembers);
+        if(projectData.getTeamLeadId()!=null){
+            User teamLead = userRepo.findById(projectData.getTeamLeadId()).orElse(null);
+            data.setTeamLead(teamLead);
+        }else{
+            data.setTeamLead(null);
+        }
+        if(projectData.getTeamMemberIds()!=null && !projectData.getTeamMemberIds().isEmpty()){
+            List<User> teamMembers = userRepo.findAllById(projectData.getTeamMemberIds());
+            data.setTeamMembers(teamMembers);
+        }else{
+            data.setTeamMembers(new ArrayList<>());
+        }
+
         data.setProjectName(projectData.getProjectName());
         data.setProjectDesc(projectData.getProjectDesc());
         data.setDeadline(projectData.getDeadline());
@@ -46,7 +53,7 @@ public class ProjectService {
         return projRepo.findByProjectNameContainingIgnoreCase(keyword).stream().map(mapper::toDto).toList();
     }
 
-    public void updateProjectById(int id, ProjectUpdateDTO projectUpdate) {
+    public void updateProjectById(int id, ProjectUpdateDTO projectUpdate) throws RuntimeException{
         Project project = projRepo.findById(id).orElseThrow(()->new RuntimeException("Project not found"));
 
         if(projectUpdate.getProjectName()!=null)project.setProjectName(projectUpdate.getProjectName());
@@ -63,5 +70,13 @@ public class ProjectService {
         }
         projRepo.save(project);
 
+    }
+
+    public boolean deleteProjectById(int id) {
+        if(projRepo.existsById(id)){
+            projRepo.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }
