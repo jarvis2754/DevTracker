@@ -1,4 +1,4 @@
-package com.devtracker.DevTracker.dto;
+package com.devtracker.DevTracker.dto.project;
 
 import com.devtracker.DevTracker.model.enums.ProjectStatus;
 import lombok.AllArgsConstructor;

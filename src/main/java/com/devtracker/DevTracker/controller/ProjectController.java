@@ -1,7 +1,7 @@
 package com.devtracker.DevTracker.controller;
 
-import com.devtracker.DevTracker.dto.ProjectDTO;
-import com.devtracker.DevTracker.dto.ProjectUpdateDTO;
+import com.devtracker.DevTracker.dto.project.ProjectDTO;
+import com.devtracker.DevTracker.dto.project.ProjectUpdateDTO;
 import com.devtracker.DevTracker.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

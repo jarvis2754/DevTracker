@@ -1,4 +1,4 @@
-package com.devtracker.DevTracker.dto;
+package com.devtracker.DevTracker.dto.project;
 import com.devtracker.DevTracker.model.enums.ProjectStatus;
 import lombok.*;
 
@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class ProjectDTO extends ProjectUpdateDTO{
+public class ProjectDTO extends ProjectUpdateDTO {
     private int projectId;
     private Date createdAt;
     private int issueCount;

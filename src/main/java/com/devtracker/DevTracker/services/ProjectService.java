@@ -1,7 +1,7 @@
 package com.devtracker.DevTracker.services;
 
-import com.devtracker.DevTracker.dto.ProjectDTO;
-import com.devtracker.DevTracker.dto.ProjectUpdateDTO;
+import com.devtracker.DevTracker.dto.project.ProjectDTO;
+import com.devtracker.DevTracker.dto.project.ProjectUpdateDTO;
 import com.devtracker.DevTracker.mapper.ProjectMapper;
 import com.devtracker.DevTracker.model.Project;
 import com.devtracker.DevTracker.model.User;

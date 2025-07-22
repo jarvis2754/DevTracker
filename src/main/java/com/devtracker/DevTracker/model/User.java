@@ -23,7 +23,7 @@ public class User {
     @JsonIgnore
     private String password;
     @Enumerated(EnumType.STRING)
-    private Position Position;
+    private Position position;
 
     @OneToMany(mappedBy="assigner")
     private List<Issue> assignedTo;
