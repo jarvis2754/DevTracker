@@ -57,4 +57,15 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with"+id+"now found");
     }
 
+    @PutMapping("update/{id}")
+    public ResponseEntity<String> updateUsers(@PathVariable int id,@RequestBody UserUpdateDTO user){
+        try{
+            service.updateUserById(id,user);
+            return ResponseEntity.status(HttpStatus.OK).body("User updated successfully");
+        }catch (RuntimeException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+
+    }
+
 }

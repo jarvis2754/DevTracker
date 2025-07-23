@@ -92,9 +92,30 @@ public class UserService {
 
     public boolean deleteUser(int id) {
         if(userRepo.existsById(id)){
-            userRepo.deleteById(id);
+            User user = userRepo.findById(id).orElseThrow(()->new RuntimeException("User not found"));
+            for(Project project: user.getProjects()){
+                project.getTeamMembers().remove(user);
+            }
+            for(Project project:user.getLeadingProjects()){
+                project.setTeamLead(null);
+            }
+            user.setProjects(null);
+            userRepo.save(user);
+            userRepo.delete(user);
             return true;
         }
         return false;
+    }
+
+    public void updateUserById(int id, UserUpdateDTO updateUser) {
+        User user = userRepo.findById(id).orElseThrow(()->new RuntimeException("User not found"));
+        if(updateUser.getUserName()!=null) user.setUserName(updateUser.getUserName());
+        if(updateUser.getEmail()!=null) user.setEmail(updateUser.getEmail());
+        if(updateUser.getPosition()!=null) user.setPosition(updateUser.getPosition());
+        if(updateUser.getPassword()!=null) user.setPassword(updateUser.getPassword());
+
+
+        userRepo.save(user);
+
     }
 }
