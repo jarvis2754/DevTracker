@@ -1,7 +1,6 @@
 package com.devtracker.DevTracker.services;
 
 import com.devtracker.DevTracker.dto.user.UserDTO;
-import com.devtracker.DevTracker.dto.user.UserGetDTO;
 import com.devtracker.DevTracker.dto.user.UserUpdateDTO;
 import com.devtracker.DevTracker.mapper.UserMapper;
 import com.devtracker.DevTracker.model.Comment;
@@ -51,38 +50,8 @@ public class UserService {
         return users.stream().map(mapper::toDo).toList();
     }
 
-    public void getUsers(UserGetDTO user) {
+    public void addUsers(UserUpdateDTO user) {
         User newUser = new User();
-        if(user.getAssignedToIds()!=null && !user.getAssignedToIds().isEmpty()){
-            List<Issue> assignedTo = issueRepo.findAllById(user.getAssignedToIds());
-            newUser.setAssignedTo(assignedTo);
-        }else{
-            newUser.setAssignedTo(new ArrayList<>());
-        }
-        if(user.getReportedIssuesIds()!=null && !user.getReportedIssuesIds().isEmpty()){
-            List<Issue> reportedIssues = issueRepo.findAllById(user.getReportedIssuesIds());
-            newUser.setReportedIssues(reportedIssues);
-        }else{
-            newUser.setReportedIssues(new ArrayList<>());
-        }
-        if(user.getCommentsIds()!=null && !user.getCommentsIds().isEmpty()){
-            List<Comment> comments = commentRepo.findAllById(user.getCommentsIds());
-            newUser.setComments(comments);
-        }else{
-            newUser.setComments(new ArrayList<>());
-        }
-        if(user.getLeadingProjectsIds()!=null && !user.getLeadingProjectsIds().isEmpty()){
-            List<Project> leadingProjects = projectRepo.findAllById(user.getLeadingProjectsIds());
-            newUser.setLeadingProjects(leadingProjects);
-        }else{
-            newUser.setLeadingProjects(new ArrayList<>());
-        }
-        if(user.getWorkingProjectsIds()!=null && !user.getWorkingProjectsIds().isEmpty()){
-            List<Project> workingProjects = projectRepo.findAllById(user.getWorkingProjectsIds());
-            newUser.setProjects(workingProjects);
-        }else{
-            newUser.setProjects(new ArrayList<>());
-        }
         newUser.setUserName(user.getUserName());
         newUser.setEmail(user.getEmail());
         newUser.setPassword(user.getPassword());
