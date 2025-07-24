@@ -1,10 +1,11 @@
 package com.devtracker.DevTracker.dto.project;
+
 import com.devtracker.DevTracker.model.enums.ProjectStatus;
 import lombok.*;
-
 import java.util.Date;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 public class ProjectDTO extends ProjectUpdateDTO {

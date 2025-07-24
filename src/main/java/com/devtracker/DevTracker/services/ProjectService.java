@@ -9,19 +9,29 @@ import com.devtracker.DevTracker.repository.ProjectRepository;
 import com.devtracker.DevTracker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class ProjectService {
 
-    @Autowired
     private ProjectRepository projRepo;
     @Autowired
+    public void setProjectRepository(ProjectRepository projRepo){
+        this.projRepo = projRepo;
+    }
+
     private ProjectMapper mapper;
     @Autowired
+    public void setProjectMapper(ProjectMapper mapper){
+        this.mapper = mapper;
+    }
+
     private UserRepository userRepo;
+    @Autowired
+    public void setUserRepository(UserRepository userRepo){
+        this.userRepo = userRepo;
+    }
 
     public void addProjects(ProjectUpdateDTO projectData){
         Project data = new Project();
