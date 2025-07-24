@@ -1,13 +1,11 @@
 package com.devtracker.DevTracker.controller;
 
 import com.devtracker.DevTracker.dto.user.UserDTO;
-import com.devtracker.DevTracker.dto.user.UserGetDTO;
 import com.devtracker.DevTracker.dto.user.UserUpdateDTO;
 import com.devtracker.DevTracker.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,9 +37,9 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> getUser(@RequestBody UserGetDTO user){
+    public ResponseEntity<String> addUser(@RequestBody UserUpdateDTO user){
         try{
-            service.getUsers(user);
+            service.addUsers(user);
             return ResponseEntity.status(HttpStatus.OK).body("User added successfully");
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

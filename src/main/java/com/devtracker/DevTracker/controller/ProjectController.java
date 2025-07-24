@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/projects")
+@RequestMapping("/project")
 public class ProjectController {
     @Autowired
     private ProjectService service;
