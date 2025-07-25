@@ -1,18 +1,12 @@
 package com.devtracker.DevTracker.dto.user;
 
-import com.devtracker.DevTracker.model.Comment;
-import com.devtracker.DevTracker.model.Issue;
-import com.devtracker.DevTracker.model.Project;
 import com.devtracker.DevTracker.model.enums.Position;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 public class UserDTO extends UserUpdateDTO{

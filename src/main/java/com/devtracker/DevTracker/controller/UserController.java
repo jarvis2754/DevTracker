@@ -3,19 +3,20 @@ package com.devtracker.DevTracker.controller;
 import com.devtracker.DevTracker.dto.user.UserDTO;
 import com.devtracker.DevTracker.dto.user.UserUpdateDTO;
 import com.devtracker.DevTracker.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
 @RequestMapping("user")
 public class UserController {
 
-    @Autowired
-    private UserService service;
+    private final UserService service;
+
+    public UserController(UserService service){
+        this.service=service;
+    }
 
     @GetMapping("/all")
     public ResponseEntity<List<UserDTO>> allUsers(){

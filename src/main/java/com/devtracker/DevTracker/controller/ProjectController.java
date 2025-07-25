@@ -3,18 +3,20 @@ package com.devtracker.DevTracker.controller;
 import com.devtracker.DevTracker.dto.project.ProjectDTO;
 import com.devtracker.DevTracker.dto.project.ProjectUpdateDTO;
 import com.devtracker.DevTracker.services.ProjectService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
 @RequestMapping("/project")
 public class ProjectController {
-    @Autowired
-    private ProjectService service;
+
+    private final ProjectService service;
+
+    public ProjectController(ProjectService service){
+        this.service = service;
+    }
 
     @PostMapping("/add")
     public ResponseEntity<String> addProject(@RequestBody ProjectUpdateDTO project){

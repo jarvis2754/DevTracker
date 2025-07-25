@@ -3,37 +3,26 @@ package com.devtracker.DevTracker.services;
 import com.devtracker.DevTracker.dto.user.UserDTO;
 import com.devtracker.DevTracker.dto.user.UserUpdateDTO;
 import com.devtracker.DevTracker.mapper.UserMapper;
-import com.devtracker.DevTracker.model.Comment;
-import com.devtracker.DevTracker.model.Issue;
 import com.devtracker.DevTracker.model.Project;
 import com.devtracker.DevTracker.model.User;
-import com.devtracker.DevTracker.repository.CommentRepository;
-import com.devtracker.DevTracker.repository.IssueRepository;
-import com.devtracker.DevTracker.repository.ProjectRepository;
 import com.devtracker.DevTracker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepo;
+    private final UserRepository userRepo;
+    public UserService(UserRepository userRepo){
+        this.userRepo=userRepo;
+    }
 
-    @Autowired
-    private CommentRepository commentRepo;
-
-    @Autowired
-    private IssueRepository issueRepo;
-
-    @Autowired
-    private ProjectRepository projectRepo;
-
-    @Autowired
     private UserMapper mapper;
+    @Autowired
+    public void setUserMapper(UserMapper mapper){
+        this.mapper=mapper;
+    }
 
     public List<UserDTO> getAllUsers() {
         return userRepo.findAll().stream().map(mapper::toDo).toList();
