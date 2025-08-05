@@ -7,6 +7,7 @@ import com.devtracker.DevTracker.model.Project;
 import com.devtracker.DevTracker.model.User;
 import com.devtracker.DevTracker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -14,14 +15,22 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepo;
-    public UserService(UserRepository userRepo){
-        this.userRepo=userRepo;
+    private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public UserService(UserRepository userRepo, PasswordEncoder passwordEncoder) {
+        this.userRepo = userRepo;
+        this.passwordEncoder = passwordEncoder;
     }
 
     private UserMapper mapper;
     @Autowired
     public void setUserMapper(UserMapper mapper){
         this.mapper=mapper;
+    }
+
+    public User saveUser(User user) {
+        return userRepo.save(user);
     }
 
     public List<UserDTO> getAllUsers() {
@@ -43,7 +52,7 @@ public class UserService {
         User newUser = new User();
         newUser.setUserName(user.getUserName());
         newUser.setEmail(user.getEmail());
-        newUser.setPassword(user.getPassword());
+        newUser.setPassword(passwordEncoder.encode(user.getPassword()));
         newUser.setPosition(user.getPosition());
         userRepo.save(newUser);
     }
@@ -70,10 +79,11 @@ public class UserService {
         if(updateUser.getUserName()!=null) user.setUserName(updateUser.getUserName());
         if(updateUser.getEmail()!=null) user.setEmail(updateUser.getEmail());
         if(updateUser.getPosition()!=null) user.setPosition(updateUser.getPosition());
-        if(updateUser.getPassword()!=null) user.setPassword(updateUser.getPassword());
-
-
+        if(updateUser.getPassword()!=null) user.setPassword(passwordEncoder.encode(updateUser.getPassword()));
         userRepo.save(user);
+    }
 
+    public User findByEmailId(String email){
+        return userRepo.findByEmail(email).orElse(null);
     }
 }

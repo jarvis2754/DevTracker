@@ -19,6 +19,7 @@ public class User {
 
     private int userId;
     private String userName;
+    @Column(unique = true, nullable = false)
     private String email;
     @JsonIgnore
     private String password;
