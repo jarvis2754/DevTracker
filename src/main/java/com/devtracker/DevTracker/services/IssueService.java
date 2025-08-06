@@ -1,5 +1,6 @@
 package com.devtracker.DevTracker.services;
 
+import com.devtracker.DevTracker.config.JwtUtil;
 import com.devtracker.DevTracker.dto.issue.IssueDTO;
 import com.devtracker.DevTracker.dto.issue.IssueUpdateDTO;
 import com.devtracker.DevTracker.mapper.IssueMapper;
@@ -10,6 +11,7 @@ import com.devtracker.DevTracker.repository.IssueRepository;
 import com.devtracker.DevTracker.repository.ProjectRepository;
 import com.devtracker.DevTracker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,17 +46,20 @@ public class IssueService {
     public void setIssueMapper(IssueMapper mapper) {
         this.mapper = mapper;
     }
-//add
-    public void addIssue(IssueUpdateDTO issueData) {
+
+    private JwtUtil jwtUtil;
+    @Autowired
+    public void setJwtUtil(JwtUtil jwtUtil){
+        this.jwtUtil = jwtUtil;
+    }
+
+    public User getUserFromToken(String token){
+        String email = jwtUtil.extractUsername(token);
+        return userRepo.findByEmail(email).orElseThrow(()->new UsernameNotFoundException("User with this email not found"));
+    }
+
+    public void addIssue(String token, IssueUpdateDTO issueData) {
         Issue issue = new Issue();
-
-
-        if (issueData.getReporterId() != null) {
-            User reporter = userRepo.findById(issueData.getReporterId()).orElse(null);
-            issue.setReporter(reporter);
-        } else {
-            issue.setReporter(null);
-        }
 
 
         if (issueData.getAssignerId() != null) {
@@ -72,12 +77,12 @@ public class IssueService {
             issue.setProject(null);
         }
 
-
         issue.setIssueTitle(issueData.getIssueTitle());
         issue.setIssueDescription(issueData.getIssueDescription());
         issue.setIssueType(issueData.getIssueType());
         issue.setStatus(issueData.getStatus());
         issue.setPriority(issueData.getPriority());
+        issue.setReporter(getUserFromToken(token));
 
         issueRepo.save(issue);
     }
@@ -102,11 +107,6 @@ public class IssueService {
         if (update.getStatus() != null) issue.setStatus(update.getStatus());
         if (update.getPriority() != null) issue.setPriority(update.getPriority());
 
-        if (update.getReporterId() != null) {
-            User reporter = userRepo.findById(update.getReporterId()).orElse(null);
-            issue.setReporter(reporter);
-        }
-
         if (update.getAssignerId() != null) {
             User assigner = userRepo.findById(update.getAssignerId()).orElse(null);
             issue.setAssigner(assigner);
@@ -116,7 +116,6 @@ public class IssueService {
             Project project = projectRepo.findById(update.getProjectId()).orElse(null);
             issue.setProject(project);
         }
-
         issueRepo.save(issue);
     }
 

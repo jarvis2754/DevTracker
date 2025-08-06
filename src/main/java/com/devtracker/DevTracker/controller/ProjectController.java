@@ -19,9 +19,10 @@ public class ProjectController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addProject(@RequestBody ProjectUpdateDTO project){
+    public ResponseEntity<String> addProject(@RequestHeader("Authorization") String authHeader, @RequestBody ProjectUpdateDTO project){
         try {
-            service.addProjects(project);
+            String token = authHeader.substring(7);
+            service.addProjects(token,project);
             return ResponseEntity.status(HttpStatus.CREATED).body("Project created successfully");
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

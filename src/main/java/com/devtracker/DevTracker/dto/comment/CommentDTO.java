@@ -10,15 +10,14 @@ import java.util.Date;
 @NoArgsConstructor
 public class CommentDTO extends CommentUpdateDTO {
 
+
     private Integer authorId;
-    private Integer issueId;
     private Date createdAt;
     private int id;
 
-    public CommentDTO(Integer author, Integer issue, Date createdAt, String content,int id) {
-        super(content);
+    public CommentDTO(Integer author, Date createdAt, String content,Integer issueId,int id) {
+        super(content,issueId);
         this.authorId = author;
-        this.issueId = issue;
         this.createdAt = createdAt;
         this.id=id;
     }

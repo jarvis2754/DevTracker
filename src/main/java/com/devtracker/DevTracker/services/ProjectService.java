@@ -1,5 +1,6 @@
 package com.devtracker.DevTracker.services;
 
+import com.devtracker.DevTracker.config.JwtUtil;
 import com.devtracker.DevTracker.dto.project.ProjectDTO;
 import com.devtracker.DevTracker.dto.project.ProjectUpdateDTO;
 import com.devtracker.DevTracker.mapper.ProjectMapper;
@@ -8,12 +9,14 @@ import com.devtracker.DevTracker.model.User;
 import com.devtracker.DevTracker.repository.ProjectRepository;
 import com.devtracker.DevTracker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ProjectService {
+public class
+ProjectService {
 
     private ProjectRepository projRepo;
     @Autowired
@@ -33,7 +36,18 @@ public class ProjectService {
         this.userRepo = userRepo;
     }
 
-    public void addProjects(ProjectUpdateDTO projectData){
+    private JwtUtil jwtUtil;
+    @Autowired
+    public void setJwtUtil(JwtUtil jwtUtil){
+        this.jwtUtil = jwtUtil;
+    }
+
+    public User getUserFromToken(String token){
+        String email = jwtUtil.extractUsername(token);
+        return userRepo.findByEmail(email).orElseThrow(()->new UsernameNotFoundException("User with this email not found"));
+    }
+
+    public void addProjects(String token, ProjectUpdateDTO projectData){
         Project data = new Project();
         if(projectData.getTeamLeadId()!=null){
             User teamLead = userRepo.findById(projectData.getTeamLeadId()).orElse(null);
@@ -47,7 +61,7 @@ public class ProjectService {
         }else{
             data.setTeamMembers(new ArrayList<>());
         }
-
+        data.setCreatedBy(getUserFromToken(token));
         data.setProjectName(projectData.getProjectName());
         data.setProjectDesc(projectData.getProjectDesc());
         data.setDeadline(projectData.getDeadline());

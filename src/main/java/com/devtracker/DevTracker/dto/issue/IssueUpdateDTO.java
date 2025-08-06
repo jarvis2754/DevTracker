@@ -16,20 +16,18 @@ public class IssueUpdateDTO {
     private IssueType issueType;
     private Status status;
     private Priority priority;
-    private Integer reporterId;
     private Integer assignerId;
     private Integer projectId;
 
     public IssueUpdateDTO() {
     }
 
-    public IssueUpdateDTO(String issueTitle, String issueDescription, IssueType issueType, Status status, Priority priority, Integer reporterId, Integer assignerId, Integer projectId) {
+    public IssueUpdateDTO(String issueTitle, String issueDescription, IssueType issueType, Status status, Priority priority, Integer assignerId, Integer projectId) {
         this.issueTitle = issueTitle;
         this.issueDescription = issueDescription;
         this.issueType = issueType;
         this.status = status;
         this.priority = priority;
-        this.reporterId = reporterId;
         this.assignerId = assignerId;
         this.projectId = projectId;
     }

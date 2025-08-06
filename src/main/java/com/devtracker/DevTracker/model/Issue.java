@@ -23,17 +23,22 @@ public class Issue {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int issueId; //no
 
+    @Column(nullable = false)
     private String issueTitle;
+
     @Lob
     private String issueDescription;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private IssueType issueType;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Status status;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Priority priority;
 
     // Foreign key to User (reporter)
@@ -48,7 +53,7 @@ public class Issue {
 
     // Foreign key to Project
     @ManyToOne
-    @JoinColumn(name = "projectId", referencedColumnName = "projectId", foreignKey = @ForeignKey(name = "fk_issue_project"))
+    @JoinColumn(name = "projectId",nullable = false, referencedColumnName = "projectId", foreignKey = @ForeignKey(name = "fk_issue_project"))
     private Project project;
 
     @OneToMany(mappedBy = "issueId",cascade = CascadeType.ALL,orphanRemoval = true)

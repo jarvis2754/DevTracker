@@ -3,6 +3,7 @@ package com.devtracker.DevTracker.controller;
 import com.devtracker.DevTracker.dto.issue.IssueDTO;
 import com.devtracker.DevTracker.dto.issue.IssueUpdateDTO;
 import com.devtracker.DevTracker.services.IssueService;
+import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +21,10 @@ public class IssueController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addIssue(@RequestBody IssueUpdateDTO issue) {
+    public ResponseEntity<String> addIssue(@RequestHeader("Authorization") String authHeader, @RequestBody IssueUpdateDTO issue) {
         try {
-            service.addIssue(issue);
+            String token = authHeader.substring(7);
+            service.addIssue(token, issue);
             return ResponseEntity.status(HttpStatus.CREATED).body("Issue created successfully");
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

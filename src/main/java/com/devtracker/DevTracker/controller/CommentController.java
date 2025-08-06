@@ -3,6 +3,7 @@ package com.devtracker.DevTracker.controller;
 import com.devtracker.DevTracker.dto.comment.CommentDTO;
 import com.devtracker.DevTracker.dto.comment.CommentUpdateDTO;
 import com.devtracker.DevTracker.services.CommentService;
+import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,14 +18,15 @@ public class CommentController {
     private CommentService commentService;
 
     @PostMapping("/add")
-    public ResponseEntity<?> createComment(@RequestBody CommentDTO commentDTO) {
+    public ResponseEntity<?> createComment(@RequestHeader("Authorization") String authHeader, @RequestBody CommentDTO commentDTO) {
         System.out.println(" Received Comment POST:");
         System.out.println("authorId: " + commentDTO.getAuthorId());
         System.out.println("issueId: " + commentDTO.getIssueId());
         System.out.println("content: " + commentDTO.getContent());
 
         try {
-            CommentDTO created = commentService.createComment(commentDTO);
+            String token =authHeader.substring(7);
+            CommentDTO created = commentService.createComment(token,commentDTO);
             return ResponseEntity.ok(created);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body( e.getMessage());

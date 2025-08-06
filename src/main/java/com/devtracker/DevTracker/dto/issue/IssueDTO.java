@@ -18,13 +18,15 @@ import java.util.List;
 public class IssueDTO extends IssueUpdateDTO{
     private int issueId;
     private List<Integer> comments;
+    private Integer reporterId;
     private Date createdAt;
 
     public IssueDTO() {
     }
 
     public IssueDTO(String issueTitle, String issueDescription, IssueType issueType, Status status, Priority priority, Integer reporterId, Integer assignerId, Integer project, int issueId, List<Integer> comments, Date createdAt) {
-        super(issueTitle, issueDescription, issueType, status, priority, reporterId, assignerId, project);
+        super(issueTitle, issueDescription, issueType, status, priority, assignerId, project);
+        this.reporterId = reporterId;
         this.issueId = issueId;
         this.comments = comments;
         this.createdAt = createdAt;

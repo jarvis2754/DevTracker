@@ -17,6 +17,7 @@ public class Comment{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @Lob
     private String content;
 
@@ -25,14 +26,8 @@ public class Comment{
     private User author;
 
     @ManyToOne
-    @JoinColumn(name = "issue_id", foreignKey = @ForeignKey(name = "fk_comment_issue_id"))
+    @JoinColumn(name = "issue_id",nullable = false, foreignKey = @ForeignKey(name = "fk_comment_issue_id"))
     private Issue issueId;
-
-
-//    @PrePersist
-//    protected void onCreate() {
-//        this.createdAt = LocalDateTime.now();
-//    }
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)

@@ -10,4 +10,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class CommentUpdateDTO {
     private String content;
+    private Integer issueId;
 }
