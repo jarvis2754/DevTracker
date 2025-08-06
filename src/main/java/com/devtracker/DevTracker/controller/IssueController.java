@@ -2,10 +2,7 @@ package com.devtracker.DevTracker.controller;
 
 import com.devtracker.DevTracker.dto.issue.IssueDTO;
 import com.devtracker.DevTracker.dto.issue.IssueUpdateDTO;
-import com.devtracker.DevTracker.dto.project.ProjectDTO;
-import com.devtracker.DevTracker.dto.project.ProjectUpdateDTO;
 import com.devtracker.DevTracker.services.IssueService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -65,7 +62,7 @@ public class IssueController {
             return ResponseEntity.status(HttpStatus.OK).body("Issue deleted");
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Issue with " + id + " doesn't exist");
     }
-    }
+}
 
 
 

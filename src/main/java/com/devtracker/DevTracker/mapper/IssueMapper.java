@@ -3,9 +3,7 @@ package com.devtracker.DevTracker.mapper;
 import com.devtracker.DevTracker.dto.issue.IssueDTO;
 import com.devtracker.DevTracker.model.Comment;
 import com.devtracker.DevTracker.model.Issue;
-import com.devtracker.DevTracker.model.Project;
 import org.springframework.stereotype.Component;
-
 import java.util.List;
 
 @Component

@@ -3,16 +3,12 @@ package com.devtracker.DevTracker.controller;
 import com.devtracker.DevTracker.config.JwtUtil;
 import com.devtracker.DevTracker.dto.auth.LoginRequestDTO;
 import com.devtracker.DevTracker.dto.auth.SignUpRequestDTO;
-import com.devtracker.DevTracker.dto.user.UserDTO;
-import com.devtracker.DevTracker.dto.user.UserUpdateDTO;
 import com.devtracker.DevTracker.model.User;
-import com.devtracker.DevTracker.repository.UserRepository;
 import com.devtracker.DevTracker.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -39,7 +35,6 @@ public class AuthController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-
     @PostMapping("/signup")
     public ResponseEntity<?> register( @RequestBody SignUpRequestDTO userDTO) {
 
@@ -60,7 +55,6 @@ public class AuthController {
             userService.saveUser(user);
             return ResponseEntity.ok("User registered successfully");
         }catch (Exception e){
-
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("user not found");
         }
     }
@@ -68,12 +62,9 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequestDTO loginDTO) {
         try {
-
             Authentication auth = authManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword())
             );
-
-
             if (auth.isAuthenticated()) {
                 User user = userService.findByEmailId(loginDTO.getEmail());
                 if (user == null) {

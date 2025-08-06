@@ -34,7 +34,6 @@ public class UserController {
             return ResponseEntity.ok(users);
         }
         return ResponseEntity.noContent().build();
-
     }
 
     @PostMapping("/add")
@@ -64,7 +63,6 @@ public class UserController {
         }catch (RuntimeException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
-
     }
 
 }

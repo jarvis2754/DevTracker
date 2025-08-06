@@ -6,7 +6,6 @@ import com.devtracker.DevTracker.services.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -16,7 +15,6 @@ public class CommentController {
 
     @Autowired
     private CommentService commentService;
-
 
     @PostMapping("/add")
     public ResponseEntity<?> createComment(@RequestBody CommentDTO commentDTO) {
@@ -35,17 +33,10 @@ public class CommentController {
         }
     }
 
-
-
     @GetMapping("/all")
     public ResponseEntity<List<CommentDTO>> getAllComments() {
         return ResponseEntity.ok(commentService.getAllComments());
     }
-
-
-
-
-
 
     @PutMapping("/{id}")
     public ResponseEntity<CommentDTO> updateComment(@PathVariable int id, @RequestBody CommentUpdateDTO updateDTO) {
