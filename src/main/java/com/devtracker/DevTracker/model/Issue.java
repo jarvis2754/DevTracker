@@ -21,7 +21,7 @@ public class Issue {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int issueId;
+    private int issueId; //no
 
     private String issueTitle;
     @Lob
@@ -52,9 +52,9 @@ public class Issue {
     private Project project;
 
     @OneToMany(mappedBy = "issueId",cascade = CascadeType.ALL,orphanRemoval = true)
-    private List<Comment>comments;
+    private List<Comment> comments; //no
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
+    private Date createdAt; //no
 }
