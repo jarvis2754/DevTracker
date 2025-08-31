@@ -1,7 +1,7 @@
 package com.devtracker.DevTracker.mapper;
 
 import com.devtracker.DevTracker.dto.project.ProjectDTO;
-import com.devtracker.DevTracker.model.Issue;
+import com.devtracker.DevTracker.model.Task;
 import com.devtracker.DevTracker.model.Project;
 import com.devtracker.DevTracker.model.User;
 import org.springframework.stereotype.Component;
@@ -16,11 +16,11 @@ public class ProjectMapper {
                                 .getTeamMembers().stream()
                                 .map(User::getUserId)
                                 .toList():List.of();
-//        int issueCount = project.getIssues()!=null ? project.getIssues().size():0;
+//        int issueCount = project.getTasks()!=null ? project.getTasks().size():0;
 
         Integer createdById = project.getCreatedBy()!=null?project.getCreatedBy().getUserId():null;
 
-        List<Integer> issueIds = project.getIssues()!=null ? project.getIssues().stream().map(Issue::getIssueId).toList():List.of();
+        List<Integer> issueIds = project.getTasks()!=null ? project.getTasks().stream().map(Task::getId).toList():List.of();
 
         return new ProjectDTO(
                 project.getProjectId(),

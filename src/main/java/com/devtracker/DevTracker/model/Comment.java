@@ -27,7 +27,7 @@ public class Comment{
 
     @ManyToOne
     @JoinColumn(name = "issue_id",nullable = false, foreignKey = @ForeignKey(name = "fk_comment_issue_id"))
-    private Issue issueId;
+    private Task issueId;
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)

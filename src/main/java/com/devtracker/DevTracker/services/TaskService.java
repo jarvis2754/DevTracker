@@ -1,13 +1,13 @@
 package com.devtracker.DevTracker.services;
 
 import com.devtracker.DevTracker.config.JwtUtil;
-import com.devtracker.DevTracker.dto.issue.IssueDTO;
-import com.devtracker.DevTracker.dto.issue.IssueUpdateDTO;
-import com.devtracker.DevTracker.mapper.IssueMapper;
-import com.devtracker.DevTracker.model.Issue;
+import com.devtracker.DevTracker.dto.task.TaskDTO;
+import com.devtracker.DevTracker.dto.task.TaskUpdateDTO;
+import com.devtracker.DevTracker.mapper.TaskMapper;
+import com.devtracker.DevTracker.model.Task;
 import com.devtracker.DevTracker.model.Project;
 import com.devtracker.DevTracker.model.User;
-import com.devtracker.DevTracker.repository.IssueRepository;
+import com.devtracker.DevTracker.repository.TaskRepository;
 import com.devtracker.DevTracker.repository.ProjectRepository;
 import com.devtracker.DevTracker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +17,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class IssueService {
+public class TaskService {
 
-    private IssueRepository issueRepo;
+    private TaskRepository issueRepo;
 
     @Autowired
-    public void setIssueRepo(IssueRepository issueRepo) {
+    public void setIssueRepo(TaskRepository issueRepo) {
         this.issueRepo = issueRepo;
     }
 
@@ -40,10 +40,10 @@ public class IssueService {
         this.projectRepo = projectRepo;
     }
 
-    private IssueMapper mapper;
+    private TaskMapper mapper;
 
     @Autowired
-    public void setIssueMapper(IssueMapper mapper) {
+    public void setIssueMapper(TaskMapper mapper) {
         this.mapper = mapper;
     }
 
@@ -58,65 +58,65 @@ public class IssueService {
         return userRepo.findByEmail(email).orElseThrow(()->new UsernameNotFoundException("User with this email not found"));
     }
 
-    public void addIssue(String token, IssueUpdateDTO issueData) {
-        Issue issue = new Issue();
+    public void addIssue(String token, TaskUpdateDTO issueData) {
+        Task task = new Task();
 
 
         if (issueData.getAssignerId() != null) {
             User assigner = userRepo.findById(issueData.getAssignerId()).orElse(null);
-            issue.setAssigner(assigner);
+            task.setAssigner(assigner);
         } else {
-            issue.setAssigner(null);
+            task.setAssigner(null);
         }
 
 
         if (issueData.getProjectId() != null) {
             Project project = projectRepo.findById(issueData.getProjectId()).orElse(null);
-            issue.setProject(project);
+            task.setProject(project);
         } else {
-            issue.setProject(null);
+            task.setProject(null);
         }
 
-        issue.setIssueTitle(issueData.getIssueTitle());
-        issue.setIssueDescription(issueData.getIssueDescription());
-        issue.setIssueType(issueData.getIssueType());
-        issue.setStatus(issueData.getStatus());
-        issue.setPriority(issueData.getPriority());
-        issue.setReporter(getUserFromToken(token));
+        task.setTitle(issueData.getTitle());
+        task.setDescription(issueData.getDescription());
+        task.setType(issueData.getType());
+        task.setStatus(issueData.getStatus());
+        task.setPriority(issueData.getPriority());
+        task.setReporter(getUserFromToken(token));
 
-        issueRepo.save(issue);
+        issueRepo.save(task);
     }
 
 
-    public List<IssueDTO> getAllIssues() {
+    public List<TaskDTO> getAllIssues() {
         return issueRepo.findAll().stream().map(mapper::toDto).toList();
     }
 
 
-//    public List<IssueDTO> getAllIssuesByTitle(String keyword) {
+//    public List<TaskDTO> getAllIssuesByTitle(String keyword) {
 //        return issueRepo.findByIssueTitleContainingIgnoreCase(keyword).stream().map(mapper::toDto).toList();
 //    }
 
 
-    public void updateIssueById(int id, IssueUpdateDTO update) {
-        Issue issue = issueRepo.findById(id).orElseThrow(() -> new RuntimeException("Issue not found"));
+    public void updateIssueById(int id, TaskUpdateDTO update) {
+        Task task = issueRepo.findById(id).orElseThrow(() -> new RuntimeException("Task not found"));
 
-        if (update.getIssueTitle() != null) issue.setIssueTitle(update.getIssueTitle());
-        if (update.getIssueDescription() != null) issue.setIssueDescription(update.getIssueDescription());
-        if (update.getIssueType() != null) issue.setIssueType(update.getIssueType());
-        if (update.getStatus() != null) issue.setStatus(update.getStatus());
-        if (update.getPriority() != null) issue.setPriority(update.getPriority());
+        if (update.getTitle() != null) task.setTitle(update.getTitle());
+        if (update.getDescription() != null) task.setDescription(update.getDescription());
+        if (update.getType() != null) task.setType(update.getType());
+        if (update.getStatus() != null) task.setStatus(update.getStatus());
+        if (update.getPriority() != null) task.setPriority(update.getPriority());
 
         if (update.getAssignerId() != null) {
             User assigner = userRepo.findById(update.getAssignerId()).orElse(null);
-            issue.setAssigner(assigner);
+            task.setAssigner(assigner);
         }
 
         if (update.getProjectId() != null) {
             Project project = projectRepo.findById(update.getProjectId()).orElse(null);
-            issue.setProject(project);
+            task.setProject(project);
         }
-        issueRepo.save(issue);
+        issueRepo.save(task);
     }
 
 

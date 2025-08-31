@@ -1,6 +1,6 @@
 package com.devtracker.DevTracker.model;
 
-import com.devtracker.DevTracker.model.enums.IssueType;
+import com.devtracker.DevTracker.model.enums.TaskType;
 import com.devtracker.DevTracker.model.enums.Priority;
 import com.devtracker.DevTracker.model.enums.Status;
 import jakarta.persistence.*;
@@ -16,24 +16,23 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "issues")
-public class Issue {
+@Table(name = "task")
+public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int issueId; //no
+    private int id; //no
 
     @Column(nullable = false)
-    private String issueTitle;
+    private String title;
 
     @Lob
-    private String issueDescription;
+    private String description;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private IssueType issueType;
+    private TaskType type;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Status status;
 
@@ -43,17 +42,17 @@ public class Issue {
 
     // Foreign key to User (reporter)
     @ManyToOne
-    @JoinColumn(name = "reporter_id", referencedColumnName = "userId", foreignKey = @ForeignKey(name = "fk_issue_reporter"))
+    @JoinColumn(name = "reporter_id", referencedColumnName = "userId", foreignKey = @ForeignKey(name = "fk_task_reporter"))
     private User reporter;
 
     // Foreign key to User (assigner)
     @ManyToOne
-    @JoinColumn(name = "assigner_id", referencedColumnName = "userId", foreignKey = @ForeignKey(name = "fk_issue_assigner"))
+    @JoinColumn(name = "assigner_id", referencedColumnName = "userId", foreignKey = @ForeignKey(name = "fk_task_assigner"))
     private User assigner;
 
     // Foreign key to Project
     @ManyToOne
-    @JoinColumn(name = "projectId",nullable = false, referencedColumnName = "projectId", foreignKey = @ForeignKey(name = "fk_issue_project"))
+    @JoinColumn(name = "projectId",nullable = false, referencedColumnName = "projectId", foreignKey = @ForeignKey(name = "fk_task_project"))
     private Project project;
 
     @OneToMany(mappedBy = "issueId",cascade = CascadeType.ALL,orphanRemoval = true)

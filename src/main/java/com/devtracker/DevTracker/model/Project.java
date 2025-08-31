@@ -53,6 +53,6 @@ public class Project {
     private ProjectStatus status;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Issue> issues;
+    private List<Task> tasks;
 
 }

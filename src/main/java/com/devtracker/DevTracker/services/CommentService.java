@@ -5,10 +5,10 @@ import com.devtracker.DevTracker.dto.comment.CommentDTO;
 import com.devtracker.DevTracker.dto.comment.CommentUpdateDTO;
 import com.devtracker.DevTracker.mapper.CommentMapper;
 import com.devtracker.DevTracker.model.Comment;
-import com.devtracker.DevTracker.model.Issue;
+import com.devtracker.DevTracker.model.Task;
 import com.devtracker.DevTracker.model.User;
 import com.devtracker.DevTracker.repository.CommentRepository;
-import com.devtracker.DevTracker.repository.IssueRepository;
+import com.devtracker.DevTracker.repository.TaskRepository;
 import com.devtracker.DevTracker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -31,7 +31,7 @@ public class CommentService {
     private UserRepository userRepository;
 
     @Autowired
-    private IssueRepository issueRepository;
+    private TaskRepository taskRepository;
 
     private JwtUtil jwtUtil;
     @Autowired
@@ -49,7 +49,7 @@ public class CommentService {
 
         Comment comment = new Comment();
         comment.setContent(commentDTO.getContent());
-        Issue issueId = issueRepository.findById(commentDTO.getIssueId()).orElseThrow(()-> new RuntimeException("Issue not found"));
+        Task issueId = taskRepository.findById(commentDTO.getIssueId()).orElseThrow(()-> new RuntimeException("Task not found"));
         comment.setIssueId(issueId);
         comment.setAuthor(getUserFromToken(token));
         Comment saved = commentRepository.save(comment);

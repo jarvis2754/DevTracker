@@ -34,10 +34,10 @@ public class User {
     private Position position;
 
     @OneToMany(mappedBy="assigner")
-    private List<Issue> assignedTo;
+    private List<Task> assignedTo;
 
     @OneToMany(mappedBy="reporter")
-    private List<Issue> reportedIssues;
+    private List<Task> reportedIssues;
 
     @OneToMany(mappedBy = "author")
     private List<Comment> comments;
