@@ -18,24 +18,35 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private int userId;
+
+    @Column(nullable = false)
     private String userName;
+
+    @Column(unique = true, nullable = false)
     private String email;
+
     @JsonIgnore
+    @Column(nullable = false)
     private String password;
+
     @Enumerated(EnumType.STRING)
-    private Position Position;
+    @Column(nullable = false)
+    private Position position;
 
     @OneToMany(mappedBy="assigner")
-    private List<Issue> assignedTo;
+    private List<Task> assignedTo;
 
     @OneToMany(mappedBy="reporter")
-    private List<Issue> reportedIssues;
+    private List<Task> reportedIssues;
 
     @OneToMany(mappedBy = "author")
     private List<Comment> comments;
 
     @OneToMany(mappedBy = "teamLead")
     private List<Project> leadingProjects;
+
+    @OneToMany(mappedBy = "createdBy")
+    private List<Project> createdProjects;
 
     @ManyToMany(mappedBy = "teamMembers")
     private List<Project> projects;

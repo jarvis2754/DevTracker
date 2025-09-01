@@ -5,9 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-
-import java.time.LocalDate;
+import org.hibernate.annotations.CreationTimestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -21,16 +19,25 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int projectId;
 
+    @Column(nullable = false)
     private String projectName;
+
+    @Lob
     private String projectDesc;
 
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
     private Date deadline;
 
     @ManyToOne
-    @JoinColumn(name = "team_lead_id" ,foreignKey = @ForeignKey(name = "fk_project_teamLead"))
+    @JoinColumn(name = "team_lead_id",foreignKey = @ForeignKey(name = "fk_project_teamLead"))
     private User teamLead;
+
+    @ManyToOne
+    @JoinColumn(name = "created_by",referencedColumnName = "userId", foreignKey = @ForeignKey(name = "fk_project_createdBy"))
+    private User createdBy;
 
     @ManyToMany
     @JoinTable(
@@ -42,12 +49,10 @@ public class Project {
     private List<User> teamMembers;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private ProjectStatus status;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Issue> issues;
+    private List<Task> tasks;
 
-
-
-    // Getters and setters
 }

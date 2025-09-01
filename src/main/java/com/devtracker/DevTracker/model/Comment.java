@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -20,6 +18,7 @@ public class Comment{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Lob
     private String content;
 
     @ManyToOne
@@ -27,14 +26,8 @@ public class Comment{
     private User author;
 
     @ManyToOne
-    @JoinColumn(name = "issue_id", foreignKey = @ForeignKey(name = "fk_comment_issue_id"))
-    private Issue issueId;
-
-
-//    @PrePersist
-//    protected void onCreate() {
-//        this.createdAt = LocalDateTime.now();
-//    }
+    @JoinColumn(name = "issue_id",nullable = false, foreignKey = @ForeignKey(name = "fk_comment_issue_id"))
+    private Task issueId;
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
