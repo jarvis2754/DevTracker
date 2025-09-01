@@ -77,6 +77,10 @@ ProjectService {
         return projRepo.findByProjectNameContainingIgnoreCase(keyword).stream().map(mapper::toDto).toList();
     }
 
+    public ProjectDTO getProjectById(int id){
+        return projRepo.findById(id).map(mapper::toDto).orElseThrow(()->new RuntimeException("Project not found"));
+    }
+
     public void updateProjectById(int id, ProjectUpdateDTO projectUpdate) throws RuntimeException{
         Project project = projRepo.findById(id).orElseThrow(()->new RuntimeException("Project not found"));
 

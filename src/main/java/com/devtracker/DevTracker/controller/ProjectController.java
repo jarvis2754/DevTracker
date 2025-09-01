@@ -45,6 +45,14 @@ public class ProjectController {
         return ResponseEntity.ok(projects);
     }
 
+    @GetMapping("/search/{id}")
+    public ResponseEntity<ProjectDTO> allProjectsByName(@PathVariable int id){
+        ProjectDTO projects = service.getProjectById(id);
+        if(projects==null)
+            return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(projects);
+    }
+
     @PutMapping("/update/{id}")
     public ResponseEntity<String> updateProject(@PathVariable int id, @RequestBody ProjectUpdateDTO project){
        try {

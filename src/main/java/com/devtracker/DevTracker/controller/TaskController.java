@@ -38,6 +38,14 @@ public class TaskController {
         return ResponseEntity.ok(issues);
     }
 
+    @GetMapping("/all/{id}")
+    public ResponseEntity<List<TaskDTO>> projectIssues(@PathVariable int id) {
+        List<TaskDTO> issues = service.getProjectIssues(id);
+        if (issues.isEmpty())
+            return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(issues);
+    }
+
 //    @GetMapping("/search")
 //    public ResponseEntity<List<TaskDTO>> allIssuesByTitle(@RequestParam("keyword") String keyword) {
 //        List<TaskDTO> issues = service.getAllIssuesByTitle(keyword);

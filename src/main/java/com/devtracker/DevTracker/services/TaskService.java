@@ -96,6 +96,10 @@ public class TaskService {
 //    public List<TaskDTO> getAllIssuesByTitle(String keyword) {
 //        return issueRepo.findByIssueTitleContainingIgnoreCase(keyword).stream().map(mapper::toDto).toList();
 //    }
+    public List<TaskDTO> getProjectIssues(int id) {
+        Project project = projectRepo.findById(id).orElseThrow(()->new RuntimeException("Project not fount"));
+        return issueRepo.findByProject(project).stream().map(mapper::toDto).toList();
+    }
 
 
     public void updateIssueById(int id, TaskUpdateDTO update) {
@@ -127,4 +131,6 @@ public class TaskService {
         }
         return false;
     }
+
+
 }
