@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class
@@ -77,6 +78,10 @@ ProjectService {
         return projRepo.findByProjectNameContainingIgnoreCase(keyword).stream().map(mapper::toDto).toList();
     }
 
+    public ProjectDTO getMinimumOfProjectId() {
+        return mapper.toDto(projRepo.findTopByOrderByProjectIdAsc().orElseThrow(() -> new RuntimeException("Project not found")));
+    }
+
     public ProjectDTO getProjectById(int id){
         return projRepo.findById(id).map(mapper::toDto).orElseThrow(()->new RuntimeException("Project not found"));
     }
@@ -107,4 +112,5 @@ ProjectService {
         }
         return false;
     }
+
 }

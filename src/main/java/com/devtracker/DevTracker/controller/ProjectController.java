@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/project")
@@ -51,6 +52,17 @@ public class ProjectController {
         if(projects==null)
             return ResponseEntity.noContent().build();
         return ResponseEntity.ok(projects);
+    }
+
+    @GetMapping("/min")
+    public ResponseEntity<ProjectDTO> getProjectWithMinId(){
+        try{
+            ProjectDTO project = service.getMinimumOfProjectId();
+            return ResponseEntity.ok(project);
+        }catch (RuntimeException e){
+            return ResponseEntity.noContent().build();
+        }
+
     }
 
     @PutMapping("/update/{id}")
