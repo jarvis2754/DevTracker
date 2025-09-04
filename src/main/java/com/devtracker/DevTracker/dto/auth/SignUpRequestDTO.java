@@ -7,6 +7,7 @@ import lombok.Data;
 public class SignUpRequestDTO {
     private String userName;
     private String email;
+    private String uuId;
     private String password;
     private Position position;
 }

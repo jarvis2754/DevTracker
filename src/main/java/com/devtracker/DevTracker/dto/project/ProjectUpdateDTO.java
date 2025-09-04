@@ -14,7 +14,7 @@ public class ProjectUpdateDTO {
     private String projectName;
     private String projectDesc;
     private Date deadline;
-    private Integer teamLeadId;
-    private List<Integer> teamMemberIds;
+    private String teamLeadId;
+    private List<String> teamMemberIds;
     private ProjectStatus status;
 }

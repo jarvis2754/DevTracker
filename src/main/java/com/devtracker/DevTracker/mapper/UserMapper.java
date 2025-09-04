@@ -28,7 +28,8 @@ public class UserMapper {
                 leadingProjectsIds,
                 workingProjectsIds,
                 createdProjectsIds,
-                user.getUserId());
+                user.getUserId(),
+                user.getUuId());
 
     }
 }

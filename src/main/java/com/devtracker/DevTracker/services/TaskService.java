@@ -63,7 +63,7 @@ public class TaskService {
 
 
         if (issueData.getAssignerId() != null) {
-            User assigner = userRepo.findById(issueData.getAssignerId()).orElse(null);
+            User assigner = userRepo.findByUuId(issueData.getAssignerId()).orElse(null);
             task.setAssigner(assigner);
         } else {
             task.setAssigner(null);
@@ -112,7 +112,7 @@ public class TaskService {
         if (update.getPriority() != null) task.setPriority(update.getPriority());
 
         if (update.getAssignerId() != null) {
-            User assigner = userRepo.findById(update.getAssignerId()).orElse(null);
+            User assigner = userRepo.findByUuId(update.getAssignerId()).orElse(null);
             task.setAssigner(assigner);
         }
 
@@ -122,7 +122,6 @@ public class TaskService {
         }
         issueRepo.save(task);
     }
-
 
     public boolean deleteIssueById(int id) {
         if (issueRepo.existsById(id)) {

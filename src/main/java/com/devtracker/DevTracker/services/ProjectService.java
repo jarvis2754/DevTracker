@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class
@@ -50,13 +51,13 @@ ProjectService {
     public void addProjects(String token, ProjectUpdateDTO projectData){
         Project data = new Project();
         if(projectData.getTeamLeadId()!=null){
-            User teamLead = userRepo.findById(projectData.getTeamLeadId()).orElse(null);
+            User teamLead = userRepo.findByUuId(projectData.getTeamLeadId()).orElse(null);
             data.setTeamLead(teamLead);
         }else{
             data.setTeamLead(null);
         }
         if(projectData.getTeamMemberIds()!=null && !projectData.getTeamMemberIds().isEmpty()){
-            List<User> teamMembers = userRepo.findAllById(projectData.getTeamMemberIds());
+            List<User> teamMembers = userRepo.findAllByUuIdIn(projectData.getTeamMemberIds());
             data.setTeamMembers(teamMembers);
         }else{
             data.setTeamMembers(new ArrayList<>());
@@ -77,6 +78,10 @@ ProjectService {
         return projRepo.findByProjectNameContainingIgnoreCase(keyword).stream().map(mapper::toDto).toList();
     }
 
+    public ProjectDTO getMinimumOfProjectId() {
+        return mapper.toDto(projRepo.findTopByOrderByProjectIdAsc().orElseThrow(() -> new RuntimeException("Project not found")));
+    }
+
     public ProjectDTO getProjectById(int id){
         return projRepo.findById(id).map(mapper::toDto).orElseThrow(()->new RuntimeException("Project not found"));
     }
@@ -89,11 +94,11 @@ ProjectService {
         if(projectUpdate.getDeadline()!=null)project.setDeadline(projectUpdate.getDeadline());
         if(projectUpdate.getStatus()!=null)project.setStatus(projectUpdate.getStatus());
         if(projectUpdate.getTeamLeadId()!=null){
-            User teamLead = userRepo.findById(projectUpdate.getTeamLeadId()).orElseThrow(() -> new RuntimeException("Team lead not found"));
+            User teamLead = userRepo.findByUuId(projectUpdate.getTeamLeadId()).orElseThrow(() -> new RuntimeException("Team lead not found"));
             project.setTeamLead(teamLead);
         }
         if (projectUpdate.getTeamMemberIds() != null) {
-            List<User> members = userRepo.findAllById(projectUpdate.getTeamMemberIds());
+            List<User> members = userRepo.findAllByUuIdIn(projectUpdate.getTeamMemberIds());
             project.setTeamMembers(members);
         }
         projRepo.save(project);
@@ -107,4 +112,5 @@ ProjectService {
         }
         return false;
     }
+
 }

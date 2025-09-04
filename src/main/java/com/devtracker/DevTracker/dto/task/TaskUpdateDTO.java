@@ -16,13 +16,13 @@ public class TaskUpdateDTO {
     private TaskType type;
     private Status status;
     private Priority priority;
-    private Integer assignerId;
+    private String assignerId;
     private Integer projectId;
 
     public TaskUpdateDTO() {
     }
 
-    public TaskUpdateDTO(String issueTitle, String issueDescription, TaskType taskType, Status status, Priority priority, Integer assignerId, Integer projectId) {
+    public TaskUpdateDTO(String issueTitle, String issueDescription, TaskType taskType, Status status, Priority priority, String assignerId, Integer projectId) {
         this.title = issueTitle;
         this.description = issueDescription;
         this.type = taskType;

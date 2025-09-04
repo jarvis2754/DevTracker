@@ -18,13 +18,13 @@ import java.util.List;
 public class TaskDTO extends TaskUpdateDTO {
     private int id;
     private List<Integer> comments;
-    private Integer reporterId;
+    private String reporterId;
     private Date createdAt;
 
     public TaskDTO() {
     }
 
-    public TaskDTO(String issueTitle, String issueDescription, TaskType taskType, Status status, Priority priority, Integer reporterId, Integer assignerId, Integer project, int taskId, List<Integer> comments, Date createdAt) {
+    public TaskDTO(String issueTitle, String issueDescription, TaskType taskType, Status status, Priority priority, String reporterId, String assignerId, Integer project, int taskId, List<Integer> comments, Date createdAt) {
         super(issueTitle, issueDescription, taskType, status, priority, assignerId, project);
         this.reporterId = reporterId;
         this.id = taskId;

@@ -48,6 +48,7 @@ public class AuthController {
 
             User user = new User();
             user.setUserName(userDTO.getUserName());
+            user.setUuId(userDTO.getUuId());
             user.setEmail(userDTO.getEmail());
             user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
             user.setPosition(userDTO.getPosition());

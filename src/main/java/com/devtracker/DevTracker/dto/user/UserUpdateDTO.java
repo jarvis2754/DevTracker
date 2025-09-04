@@ -9,12 +9,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserUpdateDTO {
     private String userName;
+    private String uuid;
     private String email;
     @JsonIgnore
     private String password;
     private Position position;
 
-    public UserUpdateDTO(String userName, String email, String password, Position position) {
+    public UserUpdateDTO(String userName, String email, String password, Position position,String uuid) {
+        this.uuid = uuid;
         this.userName = userName;
         this.email = email;
         this.password = password;

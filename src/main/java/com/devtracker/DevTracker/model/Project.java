@@ -32,7 +32,7 @@ public class Project {
     private Date deadline;
 
     @ManyToOne
-    @JoinColumn(name = "team_lead_id",foreignKey = @ForeignKey(name = "fk_project_teamLead"))
+    @JoinColumn(name = "team_lead",foreignKey = @ForeignKey(name = "fk_project_teamLead"))
     private User teamLead;
 
     @ManyToOne

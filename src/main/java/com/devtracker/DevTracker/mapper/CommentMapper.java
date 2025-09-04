@@ -10,7 +10,7 @@ public class CommentMapper {
 
     public CommentDTO toDto(Comment comment) {
         CommentDTO dto = new CommentDTO();
-        Integer userId = comment.getAuthor() != null ? comment.getAuthor().getUserId() : null;
+        String userId = comment.getAuthor() != null ? comment.getAuthor().getUuId() : null;
         Integer issueId = comment.getIssueId() != null ? comment.getIssueId().getId() : null;
         dto.setAuthorId(userId);
         dto.setIssueId(issueId);

@@ -64,6 +64,17 @@ public class TaskController {
         }
     }
 
+    @PatchMapping("/update-status/{id}")
+    public ResponseEntity<String> updateStatusIssue(@PathVariable int id, @RequestBody TaskUpdateDTO issue) {
+        try {
+            service.updateIssueById(id, issue);
+            return ResponseEntity.ok("Task updated successfully");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteIssue(@PathVariable int id) {
         boolean isDeleted = service.deleteIssueById(id);
