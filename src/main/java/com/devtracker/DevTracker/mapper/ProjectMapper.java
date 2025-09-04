@@ -11,14 +11,14 @@ import java.util.List;
 @Component
 public class ProjectMapper {
     public ProjectDTO toDto(Project project){
-        Integer teamLeadId = project.getTeamLead()!=null?project.getTeamLead().getUserId():null;
-        List<Integer> teamMemberIds =project.getTeamMembers()!=null ? project
+        String teamLeadId = project.getTeamLead()!=null?project.getTeamLead().getUuId():null;
+        List<String> teamMemberIds =project.getTeamMembers()!=null ? project
                                 .getTeamMembers().stream()
-                                .map(User::getUserId)
+                                .map(User::getUuId)
                                 .toList():List.of();
 //        int issueCount = project.getTasks()!=null ? project.getTasks().size():0;
 
-        Integer createdById = project.getCreatedBy()!=null?project.getCreatedBy().getUserId():null;
+        String createdById = project.getCreatedBy()!=null?project.getCreatedBy().getUuId():null;
 
         List<Integer> issueIds = project.getTasks()!=null ? project.getTasks().stream().map(Task::getId).toList():List.of();
 

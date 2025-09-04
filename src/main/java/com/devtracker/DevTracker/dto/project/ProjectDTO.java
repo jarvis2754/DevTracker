@@ -12,9 +12,9 @@ public class ProjectDTO extends ProjectUpdateDTO {
     private int projectId;
     private Date createdAt;
     private List<Integer> issueIds;
-    private int createdById;
+    private String createdById;
 
-    public ProjectDTO(int projectId, String projectName, String projectDesc,Date createdAt, Date deadline, Integer teamLeadId, List<Integer> teamMemberIds, ProjectStatus status,  List<Integer> issueIds , int createdById) {
+    public ProjectDTO(int projectId, String projectName, String projectDesc,Date createdAt, Date deadline, String teamLeadId, List<String> teamMemberIds, ProjectStatus status,  List<Integer> issueIds , String createdById) {
         super(projectName, projectDesc, deadline, teamLeadId, teamMemberIds, status);
         this.projectId = projectId;
         this.createdAt = createdAt;

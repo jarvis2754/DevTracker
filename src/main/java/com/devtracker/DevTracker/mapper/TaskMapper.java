@@ -9,8 +9,8 @@ import java.util.List;
 @Component
 public class TaskMapper {
     public TaskDTO toDto(Task task){
-        Integer reporterId = task.getReporter()!=null? task.getReporter().getUserId():null;
-        Integer assignerId= task.getAssigner()!=null? task.getAssigner().getUserId():null;
+        String reporterId = task.getReporter()!=null? task.getReporter().getUuId():null;
+        String assignerId= task.getAssigner()!=null? task.getAssigner().getUuId():null;
         Integer projectId= task.getProject()!=null? task.getProject().getProjectId():null;
         List<Integer> commentsIds = task.getComments()!=null ? task.getComments().stream().map(Comment::getId).toList():List.of();
         return  new TaskDTO(task.getTitle(),

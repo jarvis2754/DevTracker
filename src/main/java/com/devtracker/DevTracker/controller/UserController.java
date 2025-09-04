@@ -1,5 +1,6 @@
 package com.devtracker.DevTracker.controller;
 
+import com.devtracker.DevTracker.dto.project.ProjectDTO;
 import com.devtracker.DevTracker.dto.user.UserDTO;
 import com.devtracker.DevTracker.dto.user.UserUpdateDTO;
 import com.devtracker.DevTracker.services.UserService;
@@ -25,6 +26,14 @@ public class UserController {
             return ResponseEntity.ok(users);
         }
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/search/{uuid}")
+    public ResponseEntity<UserDTO> getUserByUuid(@PathVariable String uuid){
+        UserDTO user = service.getUserByUUID(uuid);
+        if(user==null)
+            return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(user);
     }
 
     @GetMapping("/search")

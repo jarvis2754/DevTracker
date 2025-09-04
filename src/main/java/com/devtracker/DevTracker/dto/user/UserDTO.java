@@ -20,8 +20,8 @@ public class UserDTO extends UserUpdateDTO{
 
 
 
-    public UserDTO(String userName, String email, String password, Position position, List<Integer> assignedToIds, List<Integer> reportedIssuesIds, List<Integer> commentsIds, List<Integer> leadingProjectsIds, List<Integer> workingProjectsIds,List<Integer> createdProjectsIds, int userId) {
-        super(userName,email,password,position);
+    public UserDTO(String userName, String email, String password, Position position, List<Integer> assignedToIds, List<Integer> reportedIssuesIds, List<Integer> commentsIds, List<Integer> leadingProjectsIds, List<Integer> workingProjectsIds,List<Integer> createdProjectsIds, int userId, String uuid) {
+        super(userName,email,password,position,uuid);
         this.assignedToIds =assignedToIds;
         this.reportedIssuesIds = reportedIssuesIds;
         this.commentsIds =commentsIds;

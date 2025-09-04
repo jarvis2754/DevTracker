@@ -11,11 +11,11 @@ import java.util.Date;
 public class CommentDTO extends CommentUpdateDTO {
 
 
-    private Integer authorId;
+    private String authorId;
     private Date createdAt;
     private int id;
 
-    public CommentDTO(Integer author, Date createdAt, String content,Integer issueId,int id) {
+    public CommentDTO(String author, Date createdAt, String content,Integer issueId,int id) {
         super(content,issueId);
         this.authorId = author;
         this.createdAt = createdAt;

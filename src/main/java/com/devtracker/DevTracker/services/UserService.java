@@ -48,9 +48,14 @@ public class UserService {
         return users.stream().map(mapper::toDo).toList();
     }
 
+    public UserDTO getUserByUUID(String uuid){
+        return mapper.toDo(userRepo.findByUuId(uuid).orElseThrow(()->new RuntimeException("user with user id not found")));
+    }
+
     public void addUsers(UserUpdateDTO user) {
         User newUser = new User();
         newUser.setUserName(user.getUserName());
+        newUser.setUuId(user.getUuid());
         newUser.setEmail(user.getEmail());
         newUser.setPassword(passwordEncoder.encode(user.getPassword()));
         newUser.setPosition(user.getPosition());
@@ -77,6 +82,7 @@ public class UserService {
     public void updateUserById(int id, UserUpdateDTO updateUser) {
         User user = userRepo.findById(id).orElseThrow(()->new RuntimeException("User not found"));
         if(updateUser.getUserName()!=null) user.setUserName(updateUser.getUserName());
+        if(updateUser.getUuid()!=null) user.setUuId(updateUser.getUuid());
         if(updateUser.getEmail()!=null) user.setEmail(updateUser.getEmail());
         if(updateUser.getPosition()!=null) user.setPosition(updateUser.getPosition());
         if(updateUser.getPassword()!=null) user.setPassword(passwordEncoder.encode(updateUser.getPassword()));
