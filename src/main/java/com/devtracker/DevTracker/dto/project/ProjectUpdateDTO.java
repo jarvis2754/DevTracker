@@ -4,6 +4,7 @@ import com.devtracker.DevTracker.model.enums.ProjectStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +16,6 @@ public class ProjectUpdateDTO {
     private String projectDesc;
     private Date deadline;
     private String teamLeadId;
-    private List<TeamMemberDTO> teamMemberIds;
+    private List<String> teamMemberIds;
     private ProjectStatus status;
 }

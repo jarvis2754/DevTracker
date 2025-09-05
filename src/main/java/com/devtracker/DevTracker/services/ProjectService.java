@@ -2,7 +2,6 @@ package com.devtracker.DevTracker.services;
 
 import com.devtracker.DevTracker.config.JwtUtil;
 import com.devtracker.DevTracker.dto.project.ProjectDTO;
-import com.devtracker.DevTracker.dto.project.ProjectRequestDTO;
 import com.devtracker.DevTracker.dto.project.ProjectUpdateDTO;
 import com.devtracker.DevTracker.mapper.ProjectMapper;
 import com.devtracker.DevTracker.model.Project;
@@ -14,7 +13,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class
@@ -49,7 +47,7 @@ ProjectService {
         return userRepo.findByEmail(email).orElseThrow(()->new UsernameNotFoundException("User with this email not found"));
     }
 
-    public void addProjects(String token, ProjectRequestDTO projectData){
+    public void addProjects(String token, ProjectUpdateDTO projectData){
         Project data = new Project();
 
         if(projectData.getTeamLeadId() != null){
@@ -92,7 +90,7 @@ ProjectService {
         return projRepo.findById(id).map(mapper::toDto).orElseThrow(()->new RuntimeException("Project not found"));
     }
 
-    public void updateProjectById(int id, ProjectRequestDTO projectUpdate) {
+    public void updateProjectById(int id, ProjectUpdateDTO projectUpdate) {
         Project project = projRepo.findById(id).orElseThrow(() -> new RuntimeException("Project not found"));
 
         if (projectUpdate.getProjectName() != null) project.setProjectName(projectUpdate.getProjectName());

@@ -1,14 +1,12 @@
 package com.devtracker.DevTracker.controller;
 
 import com.devtracker.DevTracker.dto.project.ProjectDTO;
-import com.devtracker.DevTracker.dto.project.ProjectRequestDTO;
 import com.devtracker.DevTracker.dto.project.ProjectUpdateDTO;
 import com.devtracker.DevTracker.services.ProjectService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/project")
@@ -21,7 +19,7 @@ public class ProjectController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addProject(@RequestHeader("Authorization") String authHeader, @RequestBody ProjectRequestDTO project){
+    public ResponseEntity<String> addProject(@RequestHeader("Authorization") String authHeader, @RequestBody ProjectUpdateDTO project){
         try {
             String token = authHeader.substring(7);
             service.addProjects(token,project);
@@ -67,7 +65,7 @@ public class ProjectController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<String> updateProject(@PathVariable int id, @RequestBody ProjectRequestDTO project){
+    public ResponseEntity<String> updateProject(@PathVariable int id, @RequestBody ProjectUpdateDTO project){
        try {
            service.updateProjectById(id, project);
            return ResponseEntity.ok("Project updated successfully");
