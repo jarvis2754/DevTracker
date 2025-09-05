@@ -2,6 +2,7 @@ package com.devtracker.DevTracker.services;
 
 import com.devtracker.DevTracker.config.JwtUtil;
 import com.devtracker.DevTracker.dto.project.ProjectDTO;
+import com.devtracker.DevTracker.dto.project.ProjectRequestDTO;
 import com.devtracker.DevTracker.dto.project.ProjectUpdateDTO;
 import com.devtracker.DevTracker.mapper.ProjectMapper;
 import com.devtracker.DevTracker.model.Project;
@@ -48,27 +49,32 @@ ProjectService {
         return userRepo.findByEmail(email).orElseThrow(()->new UsernameNotFoundException("User with this email not found"));
     }
 
-    public void addProjects(String token, ProjectUpdateDTO projectData){
+    public void addProjects(String token, ProjectRequestDTO projectData){
         Project data = new Project();
-        if(projectData.getTeamLeadId()!=null){
+
+        if(projectData.getTeamLeadId() != null){
             User teamLead = userRepo.findByUuId(projectData.getTeamLeadId()).orElse(null);
             data.setTeamLead(teamLead);
-        }else{
+        } else {
             data.setTeamLead(null);
         }
-        if(projectData.getTeamMemberIds()!=null && !projectData.getTeamMemberIds().isEmpty()){
+
+        if(projectData.getTeamMemberIds() != null && !projectData.getTeamMemberIds().isEmpty()){
             List<User> teamMembers = userRepo.findAllByUuIdIn(projectData.getTeamMemberIds());
             data.setTeamMembers(teamMembers);
-        }else{
+        } else {
             data.setTeamMembers(new ArrayList<>());
         }
+
         data.setCreatedBy(getUserFromToken(token));
         data.setProjectName(projectData.getProjectName());
         data.setProjectDesc(projectData.getProjectDesc());
         data.setDeadline(projectData.getDeadline());
         data.setStatus(projectData.getStatus());
+
         projRepo.save(data);
     }
+
 
     public List<ProjectDTO> getAllProjects(){
         return projRepo.findAll().stream().map(mapper::toDto).toList();
@@ -86,24 +92,28 @@ ProjectService {
         return projRepo.findById(id).map(mapper::toDto).orElseThrow(()->new RuntimeException("Project not found"));
     }
 
-    public void updateProjectById(int id, ProjectUpdateDTO projectUpdate) throws RuntimeException{
-        Project project = projRepo.findById(id).orElseThrow(()->new RuntimeException("Project not found"));
+    public void updateProjectById(int id, ProjectRequestDTO projectUpdate) {
+        Project project = projRepo.findById(id).orElseThrow(() -> new RuntimeException("Project not found"));
 
-        if(projectUpdate.getProjectName()!=null)project.setProjectName(projectUpdate.getProjectName());
-        if(projectUpdate.getProjectDesc()!=null)project.setProjectDesc(projectUpdate.getProjectDesc());
-        if(projectUpdate.getDeadline()!=null)project.setDeadline(projectUpdate.getDeadline());
-        if(projectUpdate.getStatus()!=null)project.setStatus(projectUpdate.getStatus());
-        if(projectUpdate.getTeamLeadId()!=null){
-            User teamLead = userRepo.findByUuId(projectUpdate.getTeamLeadId()).orElseThrow(() -> new RuntimeException("Team lead not found"));
+        if (projectUpdate.getProjectName() != null) project.setProjectName(projectUpdate.getProjectName());
+        if (projectUpdate.getProjectDesc() != null) project.setProjectDesc(projectUpdate.getProjectDesc());
+        if (projectUpdate.getDeadline() != null) project.setDeadline(projectUpdate.getDeadline());
+        if (projectUpdate.getStatus() != null) project.setStatus(projectUpdate.getStatus());
+
+        if (projectUpdate.getTeamLeadId() != null) {
+            User teamLead = userRepo.findByUuId(projectUpdate.getTeamLeadId())
+                    .orElseThrow(() -> new RuntimeException("Team lead not found"));
             project.setTeamLead(teamLead);
         }
+
         if (projectUpdate.getTeamMemberIds() != null) {
             List<User> members = userRepo.findAllByUuIdIn(projectUpdate.getTeamMemberIds());
             project.setTeamMembers(members);
         }
-        projRepo.save(project);
 
+        projRepo.save(project);
     }
+
 
     public boolean deleteProjectById(int id) {
         if(projRepo.existsById(id)){

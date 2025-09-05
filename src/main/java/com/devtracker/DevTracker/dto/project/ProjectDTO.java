@@ -14,7 +14,7 @@ public class ProjectDTO extends ProjectUpdateDTO {
     private List<Integer> issueIds;
     private String createdById;
 
-    public ProjectDTO(int projectId, String projectName, String projectDesc,Date createdAt, Date deadline, String teamLeadId, List<String> teamMemberIds, ProjectStatus status,  List<Integer> issueIds , String createdById) {
+    public ProjectDTO(int projectId, String projectName, String projectDesc,Date createdAt, Date deadline, String teamLeadId, List<TeamMemberDTO> teamMemberIds, ProjectStatus status,  List<Integer> issueIds , String createdById) {
         super(projectName, projectDesc, deadline, teamLeadId, teamMemberIds, status);
         this.projectId = projectId;
         this.createdAt = createdAt;

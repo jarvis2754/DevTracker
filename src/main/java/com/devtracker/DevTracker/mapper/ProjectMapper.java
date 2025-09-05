@@ -1,9 +1,11 @@
 package com.devtracker.DevTracker.mapper;
 
 import com.devtracker.DevTracker.dto.project.ProjectDTO;
+import com.devtracker.DevTracker.dto.project.TeamMemberDTO;
 import com.devtracker.DevTracker.model.Task;
 import com.devtracker.DevTracker.model.Project;
 import com.devtracker.DevTracker.model.User;
+import com.devtracker.DevTracker.model.enums.Position;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -12,11 +14,11 @@ import java.util.List;
 public class ProjectMapper {
     public ProjectDTO toDto(Project project){
         String teamLeadId = project.getTeamLead()!=null?project.getTeamLead().getUuId():null;
-        List<String> teamMemberIds =project.getTeamMembers()!=null ? project
+        List<TeamMemberDTO> teamMemberIds =project.getTeamMembers()!=null ? project
                                 .getTeamMembers().stream()
-                                .map(User::getUuId)
+                                .map(ProjectMapper::toTeamMembers)
                                 .toList():List.of();
-//        int issueCount = project.getTasks()!=null ? project.getTasks().size():0;
+//      int issueCount = project.getTasks()!=null ? project.getTasks().size():0;
 
         String createdById = project.getCreatedBy()!=null?project.getCreatedBy().getUuId():null;
 
@@ -33,5 +35,14 @@ public class ProjectMapper {
                 project.getStatus(),
                 issueIds,
                 createdById);
+    }
+
+    public static TeamMemberDTO toTeamMembers(User user){
+        int userId = user.getUserId();
+        String uuid = user.getUuId();
+        String userName = user.getUserName();
+        String email= user.getEmail();
+        Position position = user.getPosition();
+        return (new TeamMemberDTO(userId,uuid,userName,email,position));
     }
 }
