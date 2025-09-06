@@ -11,23 +11,21 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/comments")
-@CrossOrigin(origins = "*") //
 public class CommentController {
 
     @Autowired
     private CommentService commentService;
 
     @PostMapping("/add")
-    public ResponseEntity<?> createComment(@RequestHeader("Authorization") String authHeader, @RequestBody CommentDTO commentDTO) {
+    public ResponseEntity<String> createComment(@RequestHeader("Authorization") String authHeader, @RequestBody CommentUpdateDTO commentDTO) {
         System.out.println(" Received Comment POST:");
-        System.out.println("authorId: " + commentDTO.getAuthorId());
         System.out.println("issueId: " + commentDTO.getIssueId());
         System.out.println("content: " + commentDTO.getContent());
 
         try {
             String token =authHeader.substring(7);
             CommentDTO created = commentService.createComment(token,commentDTO);
-            return ResponseEntity.ok(created);
+            return ResponseEntity.ok("comment created successfully");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body( e.getMessage());
         } catch (Exception e) {
@@ -40,7 +38,7 @@ public class CommentController {
         return ResponseEntity.ok(commentService.getAllComments());
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<CommentDTO> updateComment(@PathVariable int id, @RequestBody CommentUpdateDTO updateDTO) {
         CommentDTO updated = commentService.updateComment(id, updateDTO);
         if (updated != null) {
@@ -50,7 +48,7 @@ public class CommentController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteComment(@PathVariable int id) {
         if (commentService.deleteComment(id)) {
             return ResponseEntity.noContent().build();

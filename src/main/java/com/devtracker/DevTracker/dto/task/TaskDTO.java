@@ -1,5 +1,6 @@
 package com.devtracker.DevTracker.dto.task;
 
+import com.devtracker.DevTracker.dto.comment.CommentGetDTO;
 import com.devtracker.DevTracker.dto.details.UserDetailsDTO;
 import com.devtracker.DevTracker.model.enums.TaskType;
 import com.devtracker.DevTracker.model.enums.Priority;
@@ -18,14 +19,14 @@ import java.util.List;
 @Setter
 public class TaskDTO extends TaskGetDTO {
     private int id;
-    private List<Integer> comments;
+    private List<CommentGetDTO> comments;
     private UserDetailsDTO reporterId;
     private Date createdAt;
 
     public TaskDTO() {
     }
 
-    public TaskDTO(String issueTitle, String issueDescription, TaskType taskType, Status status, Priority priority, UserDetailsDTO reporterId, UserDetailsDTO assignerId, Integer project, int taskId, List<Integer> comments, Date createdAt) {
+    public TaskDTO(String issueTitle, String issueDescription, TaskType taskType, Status status, Priority priority, UserDetailsDTO reporterId, UserDetailsDTO assignerId, Integer project, int taskId, List<CommentGetDTO> comments, Date createdAt) {
         super(issueTitle, issueDescription, taskType, status, priority, assignerId, project);
         this.reporterId = reporterId;
         this.id = taskId;

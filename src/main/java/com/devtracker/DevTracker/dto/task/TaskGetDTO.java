@@ -1,5 +1,6 @@
 package com.devtracker.DevTracker.dto.task;
 
+import com.devtracker.DevTracker.dto.comment.CommentGetDTO;
 import com.devtracker.DevTracker.dto.details.UserDetailsDTO;
 import com.devtracker.DevTracker.model.enums.TaskType;
 import com.devtracker.DevTracker.model.enums.Priority;
