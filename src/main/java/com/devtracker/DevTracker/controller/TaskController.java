@@ -46,6 +46,20 @@ public class TaskController {
         return ResponseEntity.ok(issues);
     }
 
+    @GetMapping("/get/{id}")
+    public ResponseEntity<TaskDTO> findTask(@PathVariable int id) {
+        try {
+            TaskDTO issues = service.getTask(id);
+            return ResponseEntity.ok(issues);
+
+        } catch (RuntimeException e) {
+            return ResponseEntity.noContent().build();
+        }
+
+
+
+    }
+
 //    @GetMapping("/search")
 //    public ResponseEntity<List<TaskDTO>> allIssuesByTitle(@RequestParam("keyword") String keyword) {
 //        List<TaskDTO> issues = service.getAllIssuesByTitle(keyword);

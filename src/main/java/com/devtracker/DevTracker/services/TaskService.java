@@ -101,6 +101,10 @@ public class TaskService {
         return issueRepo.findByProject(project).stream().map(mapper::toDto).toList();
     }
 
+    public TaskDTO getTask(int id){
+        return mapper.toDto(issueRepo.findById(id).orElseThrow(()->new RuntimeException("no task found")));
+    }
+
 
     public void updateIssueById(int id, TaskUpdateDTO update) {
         Task task = issueRepo.findById(id).orElseThrow(() -> new RuntimeException("Task not found"));
