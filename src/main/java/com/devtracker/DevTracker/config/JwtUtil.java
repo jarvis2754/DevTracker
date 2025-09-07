@@ -19,6 +19,7 @@ public class JwtUtil {
     public String generateToken(User user){
         return Jwts.builder()
                 .setSubject(user.getEmail())
+                .claim("userId", (Integer)user.getUserId())
                 .claim("orgId", user.getOrganization().getOrgId())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis()+EXPIRATION_TIME))
@@ -41,6 +42,10 @@ public class JwtUtil {
     }
     private Claims extractAllClaims(String token) {
         return parseToken(token).getBody();
+    }
+    public Integer extractUserId(String token){
+        Claims claims =extractAllClaims(token);
+        return claims.get("userId",Integer.class);
     }
 
     public Integer extractOrgId(String token) {

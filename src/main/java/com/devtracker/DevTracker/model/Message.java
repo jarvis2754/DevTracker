@@ -1,5 +1,6 @@
 package com.devtracker.DevTracker.model;
 
+import com.devtracker.DevTracker.model.enums.ChatMode;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -11,6 +12,7 @@ public class Message {
     private Long id;
 
     private String content;
+
     private LocalDateTime timestamp;
 
     // Sender
@@ -29,5 +31,5 @@ public class Message {
     private Project project;
 
     // Type: ONE_TO_ONE, PROJECT, ORGANIZATION
-    private String type;
+    private ChatMode type;
 }
