@@ -53,4 +53,8 @@ public class User {
     @ManyToMany(mappedBy = "teamMembers")
     private List<Project> projects;
 
+    @ManyToOne
+    @JoinColumn(name = "organization_id", foreignKey = @ForeignKey(name = "fk_user_org"))
+    private Organization organization;
+
 }

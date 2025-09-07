@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface ProjectRepository extends JpaRepository<Project , Integer> {
     List<Project> findByProjectNameContainingIgnoreCase(String projectName);
     Optional<Project> findTopByOrderByProjectIdAsc();
+    List<Project> findByOrganizationOrgId(int orgId);
 }

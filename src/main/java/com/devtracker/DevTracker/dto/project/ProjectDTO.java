@@ -14,13 +14,15 @@ public class ProjectDTO extends ProjectGetDTO {
     private Date createdAt;
     private List<Integer> issueIds;
     private UserDetailsDTO createdById;
+    private int orgId;
 
-    public ProjectDTO(int projectId, String projectName, String projectDesc, Date createdAt, Date deadline, UserDetailsDTO teamLeadId, List<UserDetailsDTO> teamMemberIds, ProjectStatus status, List<Integer> issueIds , UserDetailsDTO createdById) {
+    public ProjectDTO(int projectId, String projectName, String projectDesc, Date createdAt, Date deadline, UserDetailsDTO teamLeadId, List<UserDetailsDTO> teamMemberIds, ProjectStatus status, List<Integer> issueIds , UserDetailsDTO createdById,int orgId) {
         super(projectName, projectDesc, deadline, teamLeadId, teamMemberIds, status);
         this.projectId = projectId;
         this.createdAt = createdAt;
         this.issueIds = issueIds;
         this.createdById = createdById;
+        this.orgId=orgId;
     }
 
 }

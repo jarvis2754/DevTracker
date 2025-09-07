@@ -1,5 +1,6 @@
 package com.devtracker.DevTracker.config;
 
+import com.devtracker.DevTracker.model.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
@@ -15,9 +16,10 @@ public class JwtUtil {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
     }
 
-    public String generateToken(String email){
+    public String generateToken(User user){
         return Jwts.builder()
-                .setSubject(email)
+                .setSubject(user.getEmail())
+                .claim("orgId", user.getOrganization().getOrgId())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis()+EXPIRATION_TIME))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
@@ -37,6 +39,15 @@ public class JwtUtil {
             return false;
         }
     }
+    private Claims extractAllClaims(String token) {
+        return parseToken(token).getBody();
+    }
+
+    public Integer extractOrgId(String token) {
+        Claims claims = extractAllClaims(token);
+        return claims.get("orgId", Integer.class);
+    }
+
 
     private Jws<Claims> parseToken(String token){
         return Jwts.parserBuilder()

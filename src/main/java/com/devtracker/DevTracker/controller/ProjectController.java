@@ -30,8 +30,9 @@ public class ProjectController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<ProjectDTO>> allProjects(){
-        List<ProjectDTO> projects = service.getAllProjects();
+    public ResponseEntity<List<ProjectDTO>> allProjects(@RequestHeader("Authorization") String authHeader){
+        String token = authHeader.substring(7);
+        List<ProjectDTO> projects = service.getAllProjects(token);
         if(projects.isEmpty())
             return ResponseEntity.noContent().build();
         return ResponseEntity.ok(projects);
@@ -63,6 +64,14 @@ public class ProjectController {
         }
 
     }
+
+    @GetMapping("/org/{orgId}")
+    public ResponseEntity<List<ProjectDTO>> getProjectsByOrg(@PathVariable int orgId) {
+        List<ProjectDTO> projects = service.getProjectsByOrganization(orgId);
+        if (projects.isEmpty()) return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(projects);
+    }
+
 
     @PutMapping("/update/{id}")
     public ResponseEntity<String> updateProject(@PathVariable int id, @RequestBody ProjectUpdateDTO project){
