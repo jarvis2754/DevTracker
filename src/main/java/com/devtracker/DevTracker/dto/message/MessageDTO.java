@@ -19,8 +19,8 @@ public class MessageDTO {
     private Long id;
     private String content;
     private LocalDateTime timestamp;
-    private Integer sender;
-    private Integer recipient;
+    private Integer senderId;
+    private Integer recipientId;
     private Integer project;
     private ChatMode type;
 }
