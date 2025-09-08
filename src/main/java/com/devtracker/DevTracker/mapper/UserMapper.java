@@ -18,6 +18,7 @@ public class UserMapper {
         List<Integer> leadingProjectsIds = user.getLeadingProjects()!=null ? user.getLeadingProjects().stream().map(Project::getProjectId).toList() : List.of();
         List<Integer> workingProjectsIds = user.getProjects()!=null ? user.getProjects().stream().map(Project::getProjectId).toList() : List.of();
         List<Integer> createdProjectsIds = user.getCreatedProjects()!=null ? user.getCreatedProjects().stream().map(Project::getProjectId).toList() : List.of();
+
         return new UserDTO(user.getUserName(),
                 user.getEmail(),
                 user.getPassword(),

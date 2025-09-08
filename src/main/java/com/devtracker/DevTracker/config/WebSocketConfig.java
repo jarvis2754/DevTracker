@@ -1,5 +1,7 @@
 package com.devtracker.DevTracker.config;
 
+import com.devtracker.DevTracker.messages.UserHandshakeHandler;
+import com.devtracker.DevTracker.messages.UserHandshakeInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.*;
@@ -17,7 +19,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws")
-                .setAllowedOriginPatterns("*") // your frontend origins
+                .setHandshakeHandler(new UserHandshakeHandler())
+                .addInterceptors(new UserHandshakeInterceptor(new JwtUtil()))
+                .setAllowedOriginPatterns("*")
                 .withSockJS();
     }
 }

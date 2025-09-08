@@ -4,8 +4,10 @@ import com.devtracker.DevTracker.config.JwtUtil;
 import com.devtracker.DevTracker.dto.project.ProjectDTO;
 import com.devtracker.DevTracker.dto.project.ProjectUpdateDTO;
 import com.devtracker.DevTracker.mapper.ProjectMapper;
+import com.devtracker.DevTracker.model.Organization;
 import com.devtracker.DevTracker.model.Project;
 import com.devtracker.DevTracker.model.User;
+import com.devtracker.DevTracker.repository.OrganizationRepository;
 import com.devtracker.DevTracker.repository.ProjectRepository;
 import com.devtracker.DevTracker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,22 +44,37 @@ ProjectService {
         this.jwtUtil = jwtUtil;
     }
 
+    private OrganizationRepository orgRepo;
+    @Autowired
+    public void setOrgRepo(OrganizationRepository orgRepo){
+        this.orgRepo = orgRepo;
+    }
+
     public User getUserFromToken(String token){
         String email = jwtUtil.extractUsername(token);
         return userRepo.findByEmail(email).orElseThrow(()->new UsernameNotFoundException("User with this email not found"));
     }
 
-    public void addProjects(String token, ProjectUpdateDTO projectData){
+    public Integer getOrgIdFromToken(String token){
+        return(jwtUtil.extractOrgId(token));
+
+    }
+
+    public void addProjects(String token, ProjectUpdateDTO projectData) {
         Project data = new Project();
 
-        if(projectData.getTeamLeadId() != null){
+        Integer orgId = jwtUtil.extractOrgId(token);
+
+        Organization org = orgRepo.findById(orgId)
+                .orElseThrow(() -> new RuntimeException("Organization not found"));
+        data.setOrganization(org);
+
+        if (projectData.getTeamLeadId() != null) {
             User teamLead = userRepo.findByUuId(projectData.getTeamLeadId()).orElse(null);
             data.setTeamLead(teamLead);
-        } else {
-            data.setTeamLead(null);
         }
 
-        if(projectData.getTeamMemberIds() != null && !projectData.getTeamMemberIds().isEmpty()){
+        if (projectData.getTeamMemberIds() != null && !projectData.getTeamMemberIds().isEmpty()) {
             List<User> teamMembers = userRepo.findAllByUuIdIn(projectData.getTeamMemberIds());
             data.setTeamMembers(teamMembers);
         } else {
@@ -74,8 +91,13 @@ ProjectService {
     }
 
 
-    public List<ProjectDTO> getAllProjects(){
-        return projRepo.findAll().stream().map(mapper::toDto).toList();
+    public List<ProjectDTO> getAllProjects(String token){
+        Integer orgId = getOrgIdFromToken(token);
+        return projRepo.findByOrganizationOrgId(orgId).stream().map(mapper::toDto).toList();
+    }
+
+    public List<ProjectDTO> getProjectsByOrganization(int orgId) {
+        return projRepo.findByOrganizationOrgId(orgId).stream().map(mapper::toDto).toList();
     }
 
     public List<ProjectDTO> getAllProjectsByName(String keyword){

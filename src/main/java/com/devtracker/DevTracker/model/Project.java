@@ -55,4 +55,9 @@ public class Project {
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Task> tasks;
 
+    @ManyToOne
+    @JoinColumn(name = "organization_id", foreignKey = @ForeignKey(name = "fk_project_org"))
+    private Organization organization;
+
+
 }

@@ -20,7 +20,6 @@ public class ProjectMapper {
 //      int issueCount = project.getTasks()!=null ? project.getTasks().size():0;
 
         UserDetailsDTO createdById = project.getCreatedBy()!=null? UserDetailsUtils.toUser(project.getCreatedBy()):null;
-
         List<Integer> issueIds = project.getTasks()!=null ? project.getTasks().stream().map(Task::getId).toList():List.of();
 
         return new ProjectDTO(
@@ -33,7 +32,9 @@ public class ProjectMapper {
                 teamMemberIds,
                 project.getStatus(),
                 issueIds,
-                createdById);
+                createdById,
+                project.getOrganization().getOrgId()
+        );
     }
 
 }
