@@ -35,6 +35,13 @@ public class UserController {
             return ResponseEntity.noContent().build();
         return ResponseEntity.ok(user);
     }
+    @GetMapping("/{uuid}")
+    public ResponseEntity<UserDTO> getUserById(@PathVariable Integer uuid){
+        UserDTO user = service.getUserByID(uuid);
+        if(user==null)
+            return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(user);
+    }
 
     @GetMapping("/search")
     public ResponseEntity<List<UserDTO>> searchUsers(@RequestParam("keyword") String keyword){

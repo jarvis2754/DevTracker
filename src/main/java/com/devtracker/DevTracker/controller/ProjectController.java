@@ -39,11 +39,17 @@ public class ProjectController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<ProjectDTO>> allProjectsByName(@RequestParam("keyword") String keyword){
-        List<ProjectDTO> projects = service.getAllProjectsByName(keyword);
-        if(projects.isEmpty())
-            return ResponseEntity.noContent().build();
-        return ResponseEntity.ok(projects);
+    public ResponseEntity<List<ProjectDTO>> allProjectsByName(@RequestHeader("Authorization") String authHeader, @RequestParam("keyword") String keyword){
+        String token = authHeader.substring(7);
+        try{
+            List<ProjectDTO> projects = service.getAllProjectsByName(token,keyword);
+            if(projects.isEmpty())
+                return ResponseEntity.noContent().build();
+            return ResponseEntity.ok(projects);
+        }catch (RuntimeException e){
+            return ResponseEntity.badRequest().build();
+        }
+
     }
 
     @GetMapping("/search/{id}")
