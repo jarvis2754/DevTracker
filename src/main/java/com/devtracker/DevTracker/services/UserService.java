@@ -92,4 +92,8 @@ public class UserService {
     public User findByEmailId(String email){
         return userRepo.findByEmail(email).orElse(null);
     }
+
+    public UserDTO getUserByID(Integer id) {
+        return mapper.toDo(userRepo.findById(id).orElseThrow(()->new RuntimeException("user with id not found")));
+    }
 }

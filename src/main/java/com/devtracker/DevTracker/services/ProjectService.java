@@ -100,8 +100,10 @@ ProjectService {
         return projRepo.findByOrganizationOrgId(orgId).stream().map(mapper::toDto).toList();
     }
 
-    public List<ProjectDTO> getAllProjectsByName(String keyword){
-        return projRepo.findByProjectNameContainingIgnoreCase(keyword).stream().map(mapper::toDto).toList();
+    public List<ProjectDTO> getAllProjectsByName(String token, String keyword){
+        Integer orgId = getOrgIdFromToken(token);
+        Organization organization = orgRepo.findById(orgId).orElseThrow(()->new RuntimeException("organization not found"));
+        return projRepo.findByProjectNameContainingIgnoreCaseAndOrganization(keyword,organization).stream().map(mapper::toDto).toList();
     }
 
     public ProjectDTO getMinimumOfProjectId() {
