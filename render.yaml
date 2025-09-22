@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: devtracker-backend
+    env: docker
+    plan: free
+    autoDeploy: true
+    healthCheckPath: /
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+    ports:
+      - 8080
